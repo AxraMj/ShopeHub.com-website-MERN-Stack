@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import productRoutes from './routes/productRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 import cors from 'cors';
 
 // Load environment variables
@@ -15,6 +16,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/products', productRoutes);
+app.use('/api/users', authRoutes);
 
 // MongoDB Connection
 const connectDB = async () => {

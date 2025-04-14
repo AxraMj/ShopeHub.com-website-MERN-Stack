@@ -13,7 +13,10 @@ import {
     Select,
     MenuItem,
     Divider,
-    Button
+    Button,
+    Avatar,
+    Menu,
+    MenuItem as MuiMenuItem
 } from '@mui/material';
 import {
     Person as ProfileIcon,
@@ -32,16 +35,33 @@ import {
     Book as BooksIcon,
     Pets as PetsIcon,
     LocalMall as BeautyIcon,
-    KeyboardArrowDown as ArrowDownIcon
+    KeyboardArrowDown as ArrowDownIcon,
+    Logout as LogoutIcon
 } from '@mui/icons-material';
 import { useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
     const location = useLocation();
     const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
+    const { user, isAuthenticated, logout } = useAuth();
 
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
+    };
+
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+
+    const handleLogout = () => {
+        logout();
+        handleCloseUserMenu();
     };
 
     const isActive = (path) => {
@@ -191,46 +211,130 @@ const Navbar = () => {
 
                 {/* Right side - Navigation Icons and Auth Buttons */}
                 <Stack direction="row" spacing={2} alignItems="center">
-                    <Button
-                        variant="text"
-                        sx={{
-                            color: 'white',
-                            textTransform: 'none',
-                            fontSize: '0.9rem',
-                            '&:hover': {
-                                backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                            }
-                        }}
-                    >
-                        Login
-                    </Button>
-                    <Button
-                        variant="contained"
-                        sx={{
-                            backgroundColor: '#2D2E36',
-                            color: 'white',
-                            textTransform: 'none',
-                            fontSize: '0.9rem',
-                            '&:hover': {
-                                backgroundColor: '#3D3E46'
-                            }
-                        }}
-                    >
-                        Register
-                    </Button>
-                    <IconButton color="inherit" sx={{ color: 'white' }}>
-                        <ProfileIcon />
-                    </IconButton>
-                    <IconButton color="inherit" sx={{ color: 'white' }}>
-                        <Badge badgeContent={4} color="error">
-                            <WishlistIcon />
-                        </Badge>
-                    </IconButton>
-                    <IconButton color="inherit" sx={{ color: 'white' }}>
-                        <Badge badgeContent={2} color="error">
-                            <CartIcon />
-                        </Badge>
-                    </IconButton>
+                    {!isAuthenticated ? (
+                        <>
+                            <Button
+                                component={Link}
+                                to="/login"
+                                variant="text"
+                                sx={{
+                                    color: 'white',
+                                    textTransform: 'none',
+                                    fontSize: '0.9rem',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                                    }
+                                }}
+                            >
+                                Login
+                            </Button>
+                            <Button
+                                component={Link}
+                                to="/register"
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: '#2D2E36',
+                                    color: 'white',
+                                    textTransform: 'none',
+                                    fontSize: '0.9rem',
+                                    '&:hover': {
+                                        backgroundColor: '#3D3E46'
+                                    }
+                                }}
+                            >
+                                Register
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <IconButton 
+                                component={Link}
+                                to="/wishlist"
+                                sx={{ 
+                                    color: 'white',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                                    }
+                                }}
+                            >
+                                <Badge badgeContent={0} color="error">
+                                    <WishlistIcon />
+                                </Badge>
+                            </IconButton>
+
+                            <IconButton 
+                                component={Link}
+                                to="/cart"
+                                sx={{ 
+                                    color: 'white',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                                    }
+                                }}
+                            >
+                                <Badge badgeContent={0} color="error">
+                                    <CartIcon />
+                                </Badge>
+                            </IconButton>
+
+                            <IconButton 
+                                onClick={handleOpenUserMenu}
+                                sx={{ 
+                                    color: 'white',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                                    }
+                                }}
+                            >
+                                {user?.avatar ? (
+                                    <Avatar 
+                                        src={user.avatar} 
+                                        sx={{ width: 32, height: 32 }}
+                                    />
+                                ) : (
+                                    <ProfileIcon />
+                                )}
+                            </IconButton>
+
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MuiMenuItem 
+                                    component={Link} 
+                                    to="/profile"
+                                    onClick={handleCloseUserMenu}
+                                >
+                                    <Typography textAlign="center">Profile</Typography>
+                                </MuiMenuItem>
+                                <MuiMenuItem 
+                                    component={Link} 
+                                    to="/orders"
+                                    onClick={handleCloseUserMenu}
+                                >
+                                    <Typography textAlign="center">Orders</Typography>
+                                </MuiMenuItem>
+                                <MuiMenuItem onClick={handleLogout}>
+                                    <Stack direction="row" spacing={1} alignItems="center">
+                                        <LogoutIcon fontSize="small" />
+                                        <Typography textAlign="center">Logout</Typography>
+                                    </Stack>
+                                </MuiMenuItem>
+                            </Menu>
+                        </>
+                    )}
                 </Stack>
             </Box>
 

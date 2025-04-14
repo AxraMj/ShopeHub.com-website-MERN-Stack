@@ -1,9 +1,9 @@
-const User = require('../models/User');
-const { validationResult } = require('express-validator');
-const bcrypt = require('bcryptjs');
+import User from '../models/User.js';
+import { validationResult } from 'express-validator';
+import bcrypt from 'bcryptjs';
 
 // Register a new user
-exports.register = async (req, res) => {
+const register = async (req, res) => {
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -35,7 +35,7 @@ exports.register = async (req, res) => {
 };
 
 // Login user
-exports.login = async (req, res) => {
+const login = async (req, res) => {
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -53,7 +53,7 @@ exports.login = async (req, res) => {
 };
 
 // Logout user
-exports.logout = async (req, res) => {
+const logout = async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter(token => token.token !== req.token);
         await req.user.save();
@@ -64,7 +64,7 @@ exports.logout = async (req, res) => {
 };
 
 // Logout from all devices
-exports.logoutAll = async (req, res) => {
+const logoutAll = async (req, res) => {
     try {
         req.user.tokens = [];
         await req.user.save();
@@ -75,12 +75,12 @@ exports.logoutAll = async (req, res) => {
 };
 
 // Get current user profile
-exports.getProfile = async (req, res) => {
+const getProfile = async (req, res) => {
     res.json(req.user);
 };
 
 // Update user profile
-exports.updateProfile = async (req, res) => {
+const updateProfile = async (req, res) => {
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -125,7 +125,7 @@ exports.updateProfile = async (req, res) => {
 };
 
 // Delete user account
-exports.deleteAccount = async (req, res) => {
+const deleteAccount = async (req, res) => {
     try {
         const { password } = req.body;
         const user = req.user;
@@ -140,4 +140,14 @@ exports.deleteAccount = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+};
+
+export default {
+    register,
+    login,
+    logout,
+    logoutAll,
+    getProfile,
+    updateProfile,
+    deleteAccount
 }; 

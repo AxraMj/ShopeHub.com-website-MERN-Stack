@@ -9,6 +9,9 @@ import Fashion from './pages/Fashion';
 import HomeAppliances from './pages/HomeAppliances';
 import Gaming from './pages/Gaming';
 import Furniture from './pages/Furniture';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import { AuthProvider } from './context/AuthContext';
 
 const theme = createTheme({
   palette: {
@@ -37,29 +40,33 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
-        <Box sx={{ 
-          minHeight: '100vh',
-          backgroundColor: '#0F1014',
-          position: 'relative'
-        }}>
-          <Navbar />
+      <AuthProvider>
+        <Router>
           <Box sx={{ 
-            pt: '64px', // Add padding to account for the fixed navbar
-            pl: '80px' // Add padding to account for the left navigation
+            minHeight: '100vh',
+            backgroundColor: '#0F1014',
+            position: 'relative'
           }}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/electronics" element={<Electronics />} />
-              <Route path="/mobile" element={<Mobile />} />
-              <Route path="/fashion" element={<Fashion />} />
-              <Route path="/home-appliances" element={<HomeAppliances />} />
-              <Route path="/gaming" element={<Gaming />} />
-              <Route path="/furniture" element={<Furniture />} />
-            </Routes>
+            <Navbar />
+            <Box sx={{ 
+              pt: '64px', // Add padding to account for the fixed navbar
+              pl: '80px' // Add padding to account for the left navigation
+            }}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/electronics" element={<Electronics />} />
+                <Route path="/mobile" element={<Mobile />} />
+                <Route path="/fashion" element={<Fashion />} />
+                <Route path="/home-appliances" element={<HomeAppliances />} />
+                <Route path="/gaming" element={<Gaming />} />
+                <Route path="/furniture" element={<Furniture />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+              </Routes>
+            </Box>
           </Box>
-        </Box>
-      </Router>
+        </Router>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

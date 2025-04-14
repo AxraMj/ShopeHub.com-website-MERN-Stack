@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import { check } from 'express-validator';
+import authController from '../controllers/authController.js';
+import auth from '../middleware/auth.js';
+
 const router = express.Router();
-const authController = require('../controllers/authController');
-const auth = require('../middleware/auth');
-const { check } = require('express-validator');
 
 // Register route
 router.post(
@@ -59,4 +60,4 @@ router.delete(
     authController.deleteAccount
 );
 
-module.exports = router; 
+export default router; 
