@@ -8,8 +8,13 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "seed": "node seeders/seeder.js",
-    "seed:destroy": "node seeder.js -d",
-    "seed:electronics": "node seeders/electronicsSeeder.js"
+    "seed:destroy": "node seeders/seeder.js destroy",
+    "seed:electronics": "node seeders/electronicsSeeder.js",
+    "seed:mobile": "node seeders/mobileSeeder.js",
+    "seed:fashion": "node seeders/fashionSeeder.js",
+    "seed:home-appliances": "node seeders/homeApplianceSeeder.js",
+    "seed:gaming": "node seeders/gamingSeeder.js",
+    "seed:furniture": "node seeders/furnitureSeeder.js"
   },
   "keywords": [],
   "author": "",
@@ -22,7 +27,8 @@
     "express-async-handler": "^1.2.0",
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^7.0.3"
+    "mongoose": "^7.0.3",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

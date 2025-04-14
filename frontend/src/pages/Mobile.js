@@ -19,7 +19,7 @@ import {
 import ProductCard from '../components/ProductCard';
 import axios from 'axios';
 
-const Electronics = () => {
+const Mobile = () => {
     const [products, setProducts] = useState([]);
     const [displayedProducts, setDisplayedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -27,11 +27,11 @@ const Electronics = () => {
     const [sortBy, setSortBy] = useState('featured');
 
     useEffect(() => {
-        const fetchElectronics = async () => {
+        const fetchMobiles = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/products');
-                const electronicsProducts = response.data.filter(product => product.category === 'Electronics');
-                const productsWithValidImages = electronicsProducts.map(product => {
+                const mobileProducts = response.data.filter(product => product.category === 'Mobile');
+                const productsWithValidImages = mobileProducts.map(product => {
                     let imageUrl = product.image;
                     if (imageUrl && !imageUrl.startsWith('http')) {
                         imageUrl = `http://localhost:5000${imageUrl}`;
@@ -50,7 +50,7 @@ const Electronics = () => {
             }
         };
 
-        fetchElectronics();
+        fetchMobiles();
     }, []);
 
     const handleSortChange = (event) => {
@@ -76,8 +76,8 @@ const Electronics = () => {
             default:
                 // For featured, we'll sort by a combination of rating and number of reviews
                 sortedProducts.sort((a, b) => {
-                    const scoreA = (a.rating || 0) * Math.log(a.reviewCount + 1);
-                    const scoreB = (b.rating || 0) * Math.log(b.reviewCount + 1);
+                    const scoreA = (a.rating || 0) * Math.log(a.numReviews + 1);
+                    const scoreB = (b.rating || 0) * Math.log(b.numReviews + 1);
                     return scoreB - scoreA;
                 });
                 break;
@@ -126,13 +126,13 @@ const Electronics = () => {
                     <Link color="inherit" href="/" sx={{ textDecoration: 'none', color: '#ff4d4d' }}>
                         Home
                     </Link>
-                    <Typography color="textPrimary" sx={{ color: 'white' }}>Electronics</Typography>
+                    <Typography color="textPrimary" sx={{ color: 'white' }}>Mobile</Typography>
                 </Breadcrumbs>
 
                 {/* Header Section */}
                 <Box sx={{ mb: 3 }}>
                     <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold', mb: 1, color: 'white' }}>
-                        Electronics
+                        Mobile Phones
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'grey.500' }}>
                         {displayedProducts.length} results
@@ -212,4 +212,4 @@ const Electronics = () => {
     );
 };
 
-export default Electronics; 
+export default Mobile; 

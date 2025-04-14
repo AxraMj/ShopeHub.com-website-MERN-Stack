@@ -4,6 +4,11 @@ import { CssBaseline, ThemeProvider, createTheme, Box } from '@mui/material';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Electronics from './pages/Electronics';
+import Mobile from './pages/Mobile';
+import Fashion from './pages/Fashion';
+import HomeAppliances from './pages/HomeAppliances';
+import Gaming from './pages/Gaming';
+import Furniture from './pages/Furniture';
 
 const theme = createTheme({
   palette: {
@@ -46,6 +51,11 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/electronics" element={<Electronics />} />
+              <Route path="/mobile" element={<Mobile />} />
+              <Route path="/fashion" element={<Fashion />} />
+              <Route path="/home-appliances" element={<HomeAppliances />} />
+              <Route path="/gaming" element={<Gaming />} />
+              <Route path="/furniture" element={<Furniture />} />
             </Routes>
           </Box>
         </Box>

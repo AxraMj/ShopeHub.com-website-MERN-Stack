@@ -150,7 +150,9 @@ const addReview = asyncHandler(async (req, res) => {
 // @access  Public
 const getProductsByCategory = asyncHandler(async (req, res) => {
     const { category } = req.params;
-    const products = await Product.find({ category });
+    const products = await Product.find({ 
+        category: { $regex: new RegExp(category, 'i') } 
+    });
     
     if (products.length === 0) {
         res.status(404);

@@ -11,7 +11,6 @@ import {
     Divider,
     Paper,
     FormControl,
-    InputLabel,
     Select,
     MenuItem,
     Stack
@@ -19,7 +18,7 @@ import {
 import ProductCard from '../components/ProductCard';
 import axios from 'axios';
 
-const Electronics = () => {
+const HomeAppliances = () => {
     const [products, setProducts] = useState([]);
     const [displayedProducts, setDisplayedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -27,11 +26,11 @@ const Electronics = () => {
     const [sortBy, setSortBy] = useState('featured');
 
     useEffect(() => {
-        const fetchElectronics = async () => {
+        const fetchHomeAppliances = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/products');
-                const electronicsProducts = response.data.filter(product => product.category === 'Electronics');
-                const productsWithValidImages = electronicsProducts.map(product => {
+                const homeApplianceProducts = response.data.filter(product => product.category === 'Home & Kitchen');
+                const productsWithValidImages = homeApplianceProducts.map(product => {
                     let imageUrl = product.image;
                     if (imageUrl && !imageUrl.startsWith('http')) {
                         imageUrl = `http://localhost:5000${imageUrl}`;
@@ -50,7 +49,7 @@ const Electronics = () => {
             }
         };
 
-        fetchElectronics();
+        fetchHomeAppliances();
     }, []);
 
     const handleSortChange = (event) => {
@@ -74,10 +73,9 @@ const Electronics = () => {
                 break;
             case 'featured':
             default:
-                // For featured, we'll sort by a combination of rating and number of reviews
                 sortedProducts.sort((a, b) => {
-                    const scoreA = (a.rating || 0) * Math.log(a.reviewCount + 1);
-                    const scoreB = (b.rating || 0) * Math.log(b.reviewCount + 1);
+                    const scoreA = (a.rating || 0) * Math.log(a.numReviews + 1);
+                    const scoreB = (b.rating || 0) * Math.log(b.numReviews + 1);
                     return scoreB - scoreA;
                 });
                 break;
@@ -126,13 +124,13 @@ const Electronics = () => {
                     <Link color="inherit" href="/" sx={{ textDecoration: 'none', color: '#ff4d4d' }}>
                         Home
                     </Link>
-                    <Typography color="textPrimary" sx={{ color: 'white' }}>Electronics</Typography>
+                    <Typography color="textPrimary" sx={{ color: 'white' }}>Home Appliances</Typography>
                 </Breadcrumbs>
 
                 {/* Header Section */}
                 <Box sx={{ mb: 3 }}>
                     <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold', mb: 1, color: 'white' }}>
-                        Electronics
+                        Home Appliances
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'grey.500' }}>
                         {displayedProducts.length} results
@@ -212,4 +210,4 @@ const Electronics = () => {
     );
 };
 
-export default Electronics; 
+export default HomeAppliances; 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
     Box,
@@ -38,6 +38,11 @@ import { useLocation } from 'react-router-dom';
 
 const Navbar = () => {
     const location = useLocation();
+    const [anchorElNav, setAnchorElNav] = useState(null);
+
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
 
     const isActive = (path) => {
         return location.pathname === path;
@@ -130,9 +135,16 @@ const Navbar = () => {
                         }}
                         IconComponent={ArrowDownIcon}
                     >
-                        <Link to="/electronics" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <MenuItem>Electronics</MenuItem>
-                        </Link>
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/electronics" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+                                <ElectronicsIcon sx={{ mr: 1 }} /> Electronics
+                            </Link>
+                        </MenuItem>
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Link to="/mobile" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+                                <MobileIcon sx={{ mr: 1 }} /> Mobile
+                            </Link>
+                        </MenuItem>
                         {categories.map((category) => (
                             <MenuItem 
                                 key={category} 
@@ -235,124 +247,111 @@ const Navbar = () => {
                     alignItems: 'center',
                     pt: 1,
                     gap: 1,
+                    backgroundColor: '#0F1014',
                 }}
             >
                 <List sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 1 }}>
-                    <ListItem sx={{ display: 'flex', flexDirection: 'column', p: 0 }}>
-                        <Box component={Link} to="/electronics" sx={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <ListItem sx={{ justifyContent: 'center', p: 1 }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <IconButton
+                                component={Link}
+                                to="/electronics"
                                 sx={{
-                                    color: isActive('/electronics') ? 'white' : 'rgba(255, 255, 255, 0.5)',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                                    }
+                                    color: isActive('/electronics') ? 'primary.main' : 'white',
+                                    '&:hover': { color: 'primary.main' }
                                 }}
                             >
                                 <ElectronicsIcon />
                             </IconButton>
-                            <Typography
-                                variant="caption"
-                                sx={{
-                                    color: isActive('/electronics') ? 'white' : 'rgba(255, 255, 255, 0.5)',
-                                    mt: 0.5,
-                                    fontSize: '0.7rem'
-                                }}
-                            >
+                            <Typography variant="caption" sx={{ color: isActive('/electronics') ? 'primary.main' : 'white', mt: 0.5 }}>
                                 Electronics
                             </Typography>
                         </Box>
                     </ListItem>
-
-                    <ListItem sx={{ display: 'flex', flexDirection: 'column', p: 0 }}>
-                        <IconButton
-                            sx={{
-                                color: isActive('/mobiles') ? 'white' : 'rgba(255, 255, 255, 0.5)',
-                                '&:hover': {
-                                    backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                                }
-                            }}
-                        >
-                            <MobileIcon />
-                        </IconButton>
-                        <Typography
-                            variant="caption"
-                            sx={{
-                                color: isActive('/mobiles') ? 'white' : 'rgba(255, 255, 255, 0.5)',
-                                mt: 0.5,
-                                fontSize: '0.7rem'
-                            }}
-                        >
-                            Mobiles
-                        </Typography>
+                    <ListItem sx={{ justifyContent: 'center', p: 1 }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <IconButton
+                                component={Link}
+                                to="/mobile"
+                                sx={{
+                                    color: isActive('/mobile') ? 'primary.main' : 'white',
+                                    '&:hover': { color: 'primary.main' }
+                                }}
+                            >
+                                <MobileIcon />
+                            </IconButton>
+                            <Typography variant="caption" sx={{ color: isActive('/mobile') ? 'primary.main' : 'white', mt: 0.5 }}>
+                                Mobile
+                            </Typography>
+                        </Box>
                     </ListItem>
-
-                    <ListItem sx={{ display: 'flex', flexDirection: 'column', p: 0 }}>
-                        <IconButton
-                            sx={{
-                                color: isActive('/fashion') ? 'white' : 'rgba(255, 255, 255, 0.5)',
-                                '&:hover': {
-                                    backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                                }
-                            }}
-                        >
-                            <FashionIcon />
-                        </IconButton>
-                        <Typography
-                            variant="caption"
-                            sx={{
-                                color: isActive('/fashion') ? 'white' : 'rgba(255, 255, 255, 0.5)',
-                                mt: 0.5,
-                                fontSize: '0.7rem'
-                            }}
-                        >
-                            Fashion
-                        </Typography>
+                    <ListItem sx={{ justifyContent: 'center', p: 1 }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <IconButton
+                                component={Link}
+                                to="/fashion"
+                                sx={{
+                                    color: isActive('/fashion') ? 'primary.main' : 'white',
+                                    '&:hover': { color: 'primary.main' }
+                                }}
+                            >
+                                <FashionIcon />
+                            </IconButton>
+                            <Typography variant="caption" sx={{ color: isActive('/fashion') ? 'primary.main' : 'white', mt: 0.5 }}>
+                                Fashion
+                            </Typography>
+                        </Box>
                     </ListItem>
-
-                    <ListItem sx={{ display: 'flex', flexDirection: 'column', p: 0 }}>
-                        <IconButton
-                            sx={{
-                                color: isActive('/home-kitchen') ? 'white' : 'rgba(255, 255, 255, 0.5)',
-                                '&:hover': {
-                                    backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                                }
-                            }}
-                        >
-                            <HomeApplianceIcon />
-                        </IconButton>
-                        <Typography
-                            variant="caption"
-                            sx={{
-                                color: isActive('/home-kitchen') ? 'white' : 'rgba(255, 255, 255, 0.5)',
-                                mt: 0.5,
-                                fontSize: '0.7rem'
-                            }}
-                        >
-                            Home
-                        </Typography>
+                    <ListItem sx={{ justifyContent: 'center', p: 1 }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <IconButton
+                                component={Link}
+                                to="/home-appliances"
+                                sx={{
+                                    color: isActive('/home-appliances') ? 'primary.main' : 'white',
+                                    '&:hover': { color: 'primary.main' }
+                                }}
+                            >
+                                <HomeApplianceIcon />
+                            </IconButton>
+                            <Typography variant="caption" sx={{ color: isActive('/home-appliances') ? 'primary.main' : 'white', mt: 0.5 }}>
+                                Home
+                            </Typography>
+                        </Box>
                     </ListItem>
-
-                    <ListItem sx={{ display: 'flex', flexDirection: 'column', p: 0 }}>
-                        <IconButton
-                            sx={{
-                                color: isActive('/gaming') ? 'white' : 'rgba(255, 255, 255, 0.5)',
-                                '&:hover': {
-                                    backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                                }
-                            }}
-                        >
-                            <GamingIcon />
-                        </IconButton>
-                        <Typography
-                            variant="caption"
-                            sx={{
-                                color: isActive('/gaming') ? 'white' : 'rgba(255, 255, 255, 0.5)',
-                                mt: 0.5,
-                                fontSize: '0.7rem'
-                            }}
-                        >
-                            Gaming
-                        </Typography>
+                    <ListItem sx={{ justifyContent: 'center', p: 1 }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <IconButton
+                                component={Link}
+                                to="/gaming"
+                                sx={{
+                                    color: isActive('/gaming') ? 'primary.main' : 'white',
+                                    '&:hover': { color: 'primary.main' }
+                                }}
+                            >
+                                <GamingIcon />
+                            </IconButton>
+                            <Typography variant="caption" sx={{ color: isActive('/gaming') ? 'primary.main' : 'white', mt: 0.5 }}>
+                                Gaming
+                            </Typography>
+                        </Box>
+                    </ListItem>
+                    <ListItem sx={{ justifyContent: 'center', p: 1 }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <IconButton
+                                component={Link}
+                                to="/furniture"
+                                sx={{
+                                    color: isActive('/furniture') ? 'primary.main' : 'white',
+                                    '&:hover': { color: 'primary.main' }
+                                }}
+                            >
+                                <FurnitureIcon />
+                            </IconButton>
+                            <Typography variant="caption" sx={{ color: isActive('/furniture') ? 'primary.main' : 'white', mt: 0.5 }}>
+                                Furniture
+                            </Typography>
+                        </Box>
                     </ListItem>
 
                     <ListItem sx={{ display: 'flex', flexDirection: 'column', p: 0 }}>
@@ -375,29 +374,6 @@ const Navbar = () => {
                             }}
                         >
                             Grocery
-                        </Typography>
-                    </ListItem>
-
-                    <ListItem sx={{ display: 'flex', flexDirection: 'column', p: 0 }}>
-                        <IconButton
-                            sx={{
-                                color: isActive('/furniture') ? 'white' : 'rgba(255, 255, 255, 0.5)',
-                                '&:hover': {
-                                    backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                                }
-                            }}
-                        >
-                            <FurnitureIcon />
-                        </IconButton>
-                        <Typography
-                            variant="caption"
-                            sx={{
-                                color: isActive('/furniture') ? 'white' : 'rgba(255, 255, 255, 0.5)',
-                                mt: 0.5,
-                                fontSize: '0.7rem'
-                            }}
-                        >
-                            Furniture
                         </Typography>
                     </ListItem>
 
