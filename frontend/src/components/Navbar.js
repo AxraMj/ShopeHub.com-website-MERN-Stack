@@ -40,12 +40,14 @@ import {
 } from '@mui/icons-material';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 
 const Navbar = () => {
     const location = useLocation();
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const { user, isAuthenticated, logout } = useAuth();
+    const { cart } = useCart();
 
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
@@ -272,7 +274,7 @@ const Navbar = () => {
                                     }
                                 }}
                             >
-                                <Badge badgeContent={0} color="error">
+                                <Badge badgeContent={cart?.items?.length || 0} color="error">
                                     <CartIcon />
                                 </Badge>
                             </IconButton>

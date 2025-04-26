@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     Card,
     CardMedia,
@@ -12,12 +12,19 @@ import {
     IconButton,
     Button,
     useTheme,
+    CircularProgress,
+    Snackbar,
+    Alert,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { DEFAULT_PRODUCT_IMAGE, API_BASE_URL } from '../utils/constants';
 
 const StyledCard = styled(Card)(({ theme }) => ({
     width: '312px',
@@ -72,25 +79,71 @@ const ShippingChip = styled(Box)(({ theme }) => ({
 
 const ProductCard = ({ product }) => {
     const theme = useTheme();
+    const navigate = useNavigate();
+    const { addToCart, loading: cartLoading } = useCart();
+    const { user } = useAuth();
     const [isWishlisted, setIsWishlisted] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertSeverity, setAlertSeverity] = useState('success');
+    const [imageError, setImageError] = useState(false);
+    
     const {
+        _id,
         name,
         image,
         price = 0,
         rating = 0,
         reviewCount = 0,
-        description
+        description,
+        countInStock = 0
     } = product;
+
+    const handleMoreDetails = () => {
+        navigate(`/product/${_id}`);
+    };
+
+    const handleAddToCart = async () => {
+        if (!user) {
+            setAlertMessage('Please login to add items to cart');
+            setAlertSeverity('warning');
+            setShowAlert(true);
+            return;
+        }
+
+        try {
+            const result = await addToCart(_id, 1);
+            if (result.success) {
+                setAlertMessage('Item added to cart successfully');
+                setAlertSeverity('success');
+            } else {
+                setAlertMessage(result.error || 'Failed to add item to cart');
+                setAlertSeverity('error');
+            }
+            setShowAlert(true);
+        } catch (error) {
+            setAlertMessage(error.message || 'Error adding item to cart');
+            setAlertSeverity('error');
+            setShowAlert(true);
+        }
+    };
+
+    const handleCloseAlert = () => {
+        setShowAlert(false);
+    };
 
     const formatPrice = (price) => {
         return typeof price === 'number' ? price.toFixed(2) : '0.00';
     };
 
     const getImageUrl = (img) => {
-        if (!img) return 'https://via.placeholder.com/280x180?text=No+Image';
+        if (!img || imageError) return DEFAULT_PRODUCT_IMAGE;
         if (img.startsWith('http')) return img;
-        if (img.startsWith('/')) return `http://localhost:5000${img}`;
-        return img;
+        return `${API_BASE_URL}${img.startsWith('/') ? '' : '/'}${img}`;
+    };
+
+    const handleImageError = () => {
+        setImageError(true);
     };
 
     return (
@@ -100,15 +153,42 @@ const ProductCard = ({ product }) => {
                     component="img"
                     image={getImageUrl(image)}
                     alt={name}
-                    onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/280x180?text=No+Image';
-                        e.target.style.objectFit = 'contain';
+                    onError={handleImageError}
+                    sx={{
+                        objectFit: imageError ? 'contain' : 'cover'
                     }}
                 />
                 <ShippingChip>
                     <LocalShippingOutlinedIcon sx={{ fontSize: '14px' }} />
                     Free shipping
                 </ShippingChip>
+                {countInStock === 0 && (
+                    <Chip
+                        label="Out of Stock"
+                        color="error"
+                        size="small"
+                        sx={{
+                            position: 'absolute',
+                            top: '24px',
+                            right: '24px',
+                            backgroundColor: theme.palette.error.main,
+                            color: theme.palette.common.white,
+                        }}
+                    />
+                )}
+                {countInStock > 0 && countInStock <= 5 && (
+                    <Chip
+                        icon={<ErrorOutlineIcon sx={{ fontSize: '14px' }} />}
+                        label={`Only ${countInStock} left`}
+                        color="warning"
+                        size="small"
+                        sx={{
+                            position: 'absolute',
+                            top: '24px',
+                            right: '24px',
+                        }}
+                    />
+                )}
             </Box>
             
             <CardContent sx={{ 
@@ -185,11 +265,12 @@ const ProductCard = ({ product }) => {
                     ${formatPrice(price)}
                 </Typography>
 
-                <Stack direction="row" spacing={1.5} sx={{ mt: 'auto' }}>
+                <Stack direction="row" spacing={1}>
                     <Button
                         variant="contained"
                         fullWidth
                         startIcon={<ShoppingCartIcon sx={{ fontSize: '16px' }} />}
+                        onClick={handleMoreDetails}
                         sx={{
                             backgroundColor: theme.palette.mode === 'dark' 
                                 ? theme.palette.grey[800] 
@@ -212,8 +293,11 @@ const ProductCard = ({ product }) => {
                     >
                         More details
                     </Button>
+                    
                     <Button
                         variant="contained"
+                        disabled={countInStock === 0 || cartLoading}
+                        onClick={handleAddToCart}
                         sx={{
                             minWidth: '34px',
                             width: '34px',
@@ -229,10 +313,29 @@ const ProductCard = ({ product }) => {
                             }
                         }}
                     >
-                        <ShoppingCartIcon sx={{ fontSize: '16px' }} />
+                        {cartLoading ? (
+                            <CircularProgress size={16} color="inherit" />
+                        ) : (
+                            <ShoppingCartIcon sx={{ fontSize: '16px' }} />
+                        )}
                     </Button>
                 </Stack>
             </CardContent>
+            <Snackbar
+                open={showAlert}
+                autoHideDuration={3000}
+                onClose={handleCloseAlert}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+                <Alert
+                    onClose={handleCloseAlert}
+                    severity={alertSeverity}
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    {alertMessage}
+                </Alert>
+            </Snackbar>
         </StyledCard>
     );
 };
