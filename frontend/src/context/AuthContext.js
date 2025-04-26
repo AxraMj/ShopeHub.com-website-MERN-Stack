@@ -10,14 +10,23 @@ export const AuthProvider = ({ children }) => {
         // Check if user is logged in on initial load
         const userInfo = localStorage.getItem('userInfo');
         if (userInfo) {
-            setUser(JSON.parse(userInfo));
+            const parsedUserInfo = JSON.parse(userInfo);
+            setUser(parsedUserInfo);
             setIsAuthenticated(true);
         }
     }, []);
 
     const login = (userData) => {
-        localStorage.setItem('userInfo', JSON.stringify(userData));
-        setUser(userData);
+        // Store both user info and token
+        const userInfo = {
+            _id: userData._id,
+            name: userData.name,
+            email: userData.email,
+            isAdmin: userData.isAdmin,
+            token: userData.token
+        };
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        setUser(userInfo);
         setIsAuthenticated(true);
     };
 
@@ -27,8 +36,20 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
     };
 
+    const updateUserInfo = (updatedUserData) => {
+        // Update user info while preserving the token
+        const updatedUserInfo = {
+            ...user,
+            name: updatedUserData.name,
+            email: updatedUserData.email,
+            isAdmin: updatedUserData.isAdmin
+        };
+        localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo));
+        setUser(updatedUserInfo);
+    };
+
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, login, logout, updateUserInfo }}>
             {children}
         </AuthContext.Provider>
     );

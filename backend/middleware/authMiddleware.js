@@ -1,35 +1,46 @@
 import jwt from 'jsonwebtoken';
-import asyncHandler from 'express-async-handler';
 import User from '../models/User.js';
 
-// Protect routes
-const protect = asyncHandler(async (req, res, next) => {
-    let token;
-
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-        try {
-            // Get token from header
+const protect = async (req, res, next) => {
+    try {
+        let token;
+        
+        if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
             token = req.headers.authorization.split(' ')[1];
+        }
 
-            // Verify token
+        if (!token) {
+            return res.status(401).json({ message: 'Not authorized, no token' });
+        }
+
+        try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            
+            // Find user and include tokens array
+            const user = await User.findById(decoded._id).select('-password');
+            
+            if (!user) {
+                return res.status(401).json({ message: 'User not found' });
+            }
 
-            // Get user from token
-            req.user = await User.findById(decoded.id).select('-password');
+            // Verify token exists in user's tokens array
+            const tokenExists = user.tokens.some(t => t.token === token);
+            if (!tokenExists) {
+                return res.status(401).json({ message: 'Token has been invalidated' });
+            }
 
+            req.token = token;
+            req.user = user;
             next();
         } catch (error) {
-            console.error(error);
-            res.status(401);
-            throw new Error('Not authorized, token failed');
+            console.error('Token verification error:', error);
+            return res.status(401).json({ message: 'Not authorized, token failed' });
         }
+    } catch (error) {
+        console.error('Auth middleware error:', error);
+        res.status(500).json({ message: 'Server error' });
     }
-
-    if (!token) {
-        res.status(401);
-        throw new Error('Not authorized, no token');
-    }
-});
+};
 
 // Admin middleware
 const admin = (req, res, next) => {

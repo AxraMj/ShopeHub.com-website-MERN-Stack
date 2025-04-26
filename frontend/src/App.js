@@ -11,6 +11,7 @@ import Gaming from './pages/Gaming';
 import Furniture from './pages/Furniture';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Profile from './pages/Profile';
 import { AuthProvider } from './context/AuthContext';
 
 const theme = createTheme({
@@ -62,6 +63,7 @@ function App() {
                 <Route path="/furniture" element={<Furniture />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/profile" element={<Profile />} />
               </Routes>
             </Box>
           </Box>

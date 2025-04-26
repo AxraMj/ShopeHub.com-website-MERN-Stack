@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Container, Typography, Button } from '@mui/material';
 import axios from 'axios';
+import { banners } from '../data/banners';
 
 const Home = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -14,37 +15,7 @@ const Home = () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/products');
                 const featured = response.data.filter(product => product.isFeatured);
-                const productsToShow = featured.length > 0 ? featured : response.data;
-                const firstThreeProducts = productsToShow.slice(0, 3);
-                
-                const productsWithValidImages = firstThreeProducts.map(product => {
-                    let imageUrl;
-                    if (product?.image) {
-                        if (product.image.startsWith('http')) {
-                            imageUrl = product.image;
-                        } else if (product.image.startsWith('/')) {
-                            imageUrl = `http://localhost:5000${product.image}`;
-                        } else {
-                            imageUrl = `http://localhost:5000/images/${product.image}`;
-                        }
-                    } else {
-                        const fallbackImages = {
-                            'Electronics': 'https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg',
-                            'Footwear': 'https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg',
-                            'Clothing': 'https://images.pexels.com/photos/7679720/pexels-photo-7679720.jpeg',
-                            'Home & Kitchen': 'https://images.pexels.com/photos/3944405/pexels-photo-3944405.jpeg',
-                            'default': 'https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg'
-                        };
-                        imageUrl = fallbackImages[product.category] || fallbackImages.default;
-                    }
-                    
-                    return {
-                        ...product,
-                        image: imageUrl
-                    };
-                });
-                
-                setFeaturedProducts(productsWithValidImages);
+                setFeaturedProducts(featured);
                 setLoading(false);
             } catch (err) {
                 setError(err.message);
@@ -56,18 +27,16 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        if (featuredProducts.length > 0) {
-            const timer = setInterval(() => {
-                setFade(false);
-                setTimeout(() => {
-                    setCurrentSlide((prev) => (prev + 1) % featuredProducts.length);
-                    setFade(true);
-                }, 500);
-            }, 5000);
+        const timer = setInterval(() => {
+            setFade(false);
+            setTimeout(() => {
+                setCurrentSlide((prev) => (prev + 1) % banners.length);
+                setFade(true);
+            }, 500);
+        }, 5000);
 
-            return () => clearInterval(timer);
-        }
-    }, [featuredProducts]);
+        return () => clearInterval(timer);
+    }, []);
 
     if (loading) {
         return (
@@ -81,14 +50,6 @@ const Home = () => {
         return (
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                 <Typography color="error">Error: {error}</Typography>
-            </Box>
-        );
-    }
-
-    if (featuredProducts.length === 0) {
-        return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-                <Typography>No products available</Typography>
             </Box>
         );
     }
@@ -121,8 +82,8 @@ const Home = () => {
                 />
                 <Box
                     component="img"
-                    src={featuredProducts[currentSlide]?.image}
-                    alt={featuredProducts[currentSlide]?.name}
+                    src={banners[currentSlide]?.image}
+                    alt={banners[currentSlide]?.name}
                     sx={{
                         position: 'absolute',
                         top: 0,
@@ -170,7 +131,7 @@ const Home = () => {
                                 letterSpacing: '-0.02em'
                             }}
                         >
-                            {featuredProducts[currentSlide]?.name}
+                            {banners[currentSlide]?.name}
                         </Typography>
 
                         <Typography
@@ -185,7 +146,7 @@ const Home = () => {
                                 fontWeight: 400
                             }}
                         >
-                            {featuredProducts[currentSlide]?.description}
+                            {banners[currentSlide]?.description}
                         </Typography>
 
                         <Button
@@ -208,6 +169,25 @@ const Home = () => {
                     </Box>
                 </Container>
             </Box>
+
+            {/* Featured Products Section */}
+            {featuredProducts.length > 0 && (
+                <Container maxWidth="lg" sx={{ py: 8 }}>
+                    <Typography
+                        variant="h2"
+                        sx={{
+                            color: 'white',
+                            fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' },
+                            fontWeight: 700,
+                            mb: 4,
+                            textAlign: 'center'
+                        }}
+                    >
+                        Featured Products
+                    </Typography>
+                    {/* Add your featured products grid here */}
+                </Container>
+            )}
         </Box>
     );
 };
