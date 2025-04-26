@@ -39,6 +39,7 @@ import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined';
 import StarIcon from '@mui/icons-material/Star';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import axios from 'axios';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -80,6 +81,7 @@ const ProductDetail = () => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const { addToCart } = useCart();
     const { user } = useAuth();
+    const [isInWishlist, setIsInWishlist] = useState(false);
 
     const ratingDistribution = {
         5: 65,
@@ -94,6 +96,14 @@ const ProductDetail = () => {
             try {
                 const response = await axios.get(`${API_BASE_URL}/api/products/${id}`);
                 setProduct(response.data);
+                
+                // Check if product is in wishlist
+                if (user) {
+                    const wishlistResponse = await axios.get(`${API_BASE_URL}/api/wishlist`, {
+                        headers: { Authorization: `Bearer ${user.token}` }
+                    });
+                    setIsInWishlist(wishlistResponse.data.products.some(p => p._id === response.data._id));
+                }
                 
                 // Fetch related products from the same category
                 const relatedResponse = await axios.get(
@@ -114,7 +124,7 @@ const ProductDetail = () => {
         return () => {
             document.title = 'ShopeHub';
         };
-    }, [id]);
+    }, [id, user]);
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
@@ -169,6 +179,33 @@ const ProductDetail = () => {
 
     const handleCloseSnackbar = () => {
         setSnackbarOpen(false);
+    };
+
+    const handleWishlist = async () => {
+        if (!user) {
+            setSnackbarOpen(true);
+            return;
+        }
+
+        try {
+            if (isInWishlist) {
+                await axios.delete(`${API_BASE_URL}/api/wishlist/${product._id}`, {
+                    headers: { Authorization: `Bearer ${user.token}` }
+                });
+                setIsInWishlist(false);
+            } else {
+                await axios.post(`${API_BASE_URL}/api/wishlist`, 
+                    { productId: product._id },
+                    { headers: { Authorization: `Bearer ${user.token}` } }
+                );
+                setIsInWishlist(true);
+            }
+            
+            setSnackbarOpen(true);
+        } catch (error) {
+            console.error('Error updating wishlist:', error);
+            setSnackbarOpen(true);
+        }
     };
 
     if (loading) {
@@ -263,15 +300,16 @@ const ProductDetail = () => {
                                     right: 16
                                 }}
                             >
-                                <Tooltip title="Add to Wishlist">
+                                <Tooltip title={isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}>
                                     <IconButton
                                         size="small"
+                                        onClick={handleWishlist}
                                         sx={{
                                             bgcolor: 'white',
                                             '&:hover': { bgcolor: 'grey.100' }
                                         }}
                                     >
-                                        <FavoriteBorderIcon />
+                                        {isInWishlist ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
                                     </IconButton>
                                 </Tooltip>
                                 <Tooltip title="Share">
@@ -541,7 +579,13 @@ const ProductDetail = () => {
                 open={snackbarOpen}
                 autoHideDuration={2000}
                 onClose={handleCloseSnackbar}
-                message={addedToCart ? "Product added to cart successfully!" : "Error adding product to cart"}
+                message={
+                    !user 
+                        ? "Please login to add to wishlist"
+                        : isInWishlist 
+                            ? "Added to wishlist successfully!"
+                            : "Removed from wishlist successfully!"
+                }
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             />
         </Container>

@@ -14,6 +14,7 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
+import Wishlist from './pages/Wishlist';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 
@@ -70,6 +71,7 @@ function App() {
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/product/:id" element={<ProductDetail />} />
                   <Route path="/cart" element={<Cart />} />
+                  <Route path="/wishlist" element={<Wishlist />} />
                 </Routes>
               </Box>
             </Box>
