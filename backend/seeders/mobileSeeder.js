@@ -38,7 +38,7 @@ const mobileProducts = [
         image: "https://lh3.googleusercontent.com/AJqxpqB9j4lHj0Qx9BTlHPjGqNQeqYFyYR1-Bk5WE9zZqgMQfGr8B80o4MQrCBZZagHJZnhVqisJ_id0qLNGe_5k7Xj4mQs=w1000-rw",
         brand: "Google",
         category: "Mobile",
-        stock: 20,
+        countInStock: 20,
         rating: 4.7,
         numReviews: 156,
         isFeatured: true,
@@ -51,7 +51,7 @@ const mobileProducts = [
         image: "https://image01.oneplus.net/ebp/202301/04/1-m00-45-36-rb8lb2o1fdyawazcaakxhiwn8ds177.png",
         brand: "OnePlus",
         category: "Mobile",
-        stock: 15,
+        countInStock: 15,
         rating: 4.6,
         numReviews: 134,
         discount: 15
@@ -63,7 +63,7 @@ const mobileProducts = [
         image: "https://i02.appmifile.com/615_operator_sg/10/03/2023/ce8d1f5f33a2f53e4e1542542b88fd0d.png",
         brand: "Xiaomi",
         category: "Mobile",
-        stock: 18,
+        countInStock: 18,
         rating: 4.5,
         numReviews: 98,
         discount: 12
@@ -75,7 +75,7 @@ const mobileProducts = [
         image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-finish-select-202309-6-1inch-blue?wid=5120&hei=2880&fmt=p-jpg",
         brand: "Apple",
         category: "Mobile",
-        stock: 35,
+        countInStock: 35,
         rating: 4.8,
         numReviews: 167,
         discount: 0
@@ -87,7 +87,7 @@ const mobileProducts = [
         image: "https://images.samsung.com/is/image/samsung/p6pim/levant/2307/gallery/levant-galaxy-z-fold5-f946-sm-f946bzahmea-thumb-537243914",
         brand: "Samsung",
         category: "Mobile",
-        stock: 10,
+        countInStock: 10,
         rating: 4.7,
         numReviews: 89,
         isFeatured: true,
@@ -100,7 +100,7 @@ const mobileProducts = [
         image: "https://in.nothing.tech/cdn/shop/files/Phone-2-Dark-Grey-Front.png",
         brand: "Nothing",
         category: "Mobile",
-        stock: 12,
+        countInStock: 12,
         rating: 4.4,
         numReviews: 76,
         discount: 10
@@ -112,7 +112,7 @@ const mobileProducts = [
         image: "https://lh3.googleusercontent.com/PB5YmQQQmUJaAPYX3c8HZeEhyOsF0NxjvZBqoP6e0WZOD9MkLhGP6DDXf_QZO8AIvD9a_YZZtRGPYw9C-_YHAA8_iE_uvGQ=w1000-rw",
         brand: "Google",
         category: "Mobile",
-        stock: 22,
+        countInStock: 22,
         rating: 4.6,
         numReviews: 112,
         discount: 5
@@ -124,7 +124,7 @@ const mobileProducts = [
         image: "https://images.samsung.com/is/image/samsung/p6pim/in/2307/gallery/in-galaxy-z-flip5-f731-sm-f731blgains-thumb-537243459",
         brand: "Samsung",
         category: "Mobile",
-        stock: 15,
+        countInStock: 15,
         rating: 4.5,
         numReviews: 94,
         discount: 12
@@ -136,7 +136,7 @@ const mobileProducts = [
         image: "https://image01.oneplus.net/ebp/202306/27/1-m00-51-00-rb8lb2sZybeabfhaaamr3kpvtpm741.png",
         brand: "OnePlus",
         category: "Mobile",
-        stock: 28,
+        countInStock: 28,
         rating: 4.4,
         numReviews: 145,
         discount: 15
@@ -148,7 +148,7 @@ const mobileProducts = [
         image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-pro-finish-select-202209-6-7inch-deeppurple?wid=5120&hei=2880&fmt=p-jpg",
         brand: "Apple",
         category: "Mobile",
-        stock: 20,
+        countInStock: 20,
         rating: 4.8,
         numReviews: 234,
         discount: 10
@@ -160,7 +160,7 @@ const mobileProducts = [
         image: "https://i02.appmifile.com/231_operator_sg/10/01/2023/8b15a0fc9a5a6f6e2f3a6100c6130682.png",
         brand: "Xiaomi",
         category: "Mobile",
-        stock: 40,
+        countInStock: 40,
         rating: 4.3,
         numReviews: 178,
         discount: 18
@@ -172,7 +172,7 @@ const mobileProducts = [
         image: "https://images.samsung.com/is/image/samsung/p6pim/in/sm-a546ezkeins/gallery/in-galaxy-a54-5g-sm-a546-sm-a546ezkeins-thumb-535265914",
         brand: "Samsung",
         category: "Mobile",
-        stock: 45,
+        countInStock: 45,
         rating: 4.4,
         numReviews: 156,
         discount: 15
@@ -184,7 +184,7 @@ const mobileProducts = [
         image: "https://lh3.googleusercontent.com/Z4sNAkOcwx8vpxUVYZK1maPpzxvXO5kVJwm8nGYJqKsNvJkYeEfqgJJM2ZaoPKFAy_m4RyNO3GRxwHqNxv-VHRY-0h6tTLTl=w1000-rw",
         brand: "Google",
         category: "Mobile",
-        stock: 25,
+        countInStock: 25,
         rating: 4.5,
         numReviews: 123,
         discount: 8
@@ -196,7 +196,7 @@ const mobileProducts = [
         image: "https://image01.oneplus.net/ebp/202302/07/1-m00-47-45-rb8lb2phskeadqvyaakf0gpjhka177.png",
         brand: "OnePlus",
         category: "Mobile",
-        stock: 30,
+        countInStock: 30,
         rating: 4.5,
         numReviews: 167,
         discount: 12
@@ -208,7 +208,7 @@ const mobileProducts = [
         image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-plus-finish-select-202309-6-7inch-pink?wid=5120&hei=2880&fmt=p-jpg",
         brand: "Apple",
         category: "Mobile",
-        stock: 28,
+        countInStock: 28,
         rating: 4.7,
         numReviews: 145,
         discount: 0
@@ -220,7 +220,7 @@ const mobileProducts = [
         image: "https://i02.appmifile.com/763_operator_sg/11/05/2023/ce6e7867d5c6f5123397ac9c7fc9dece.png",
         brand: "Xiaomi",
         category: "Mobile",
-        stock: 35,
+        countInStock: 35,
         rating: 4.4,
         numReviews: 189,
         discount: 20
@@ -232,7 +232,7 @@ const mobileProducts = [
         image: "https://images.samsung.com/is/image/samsung/p6pim/in/sm-m546bzbeins/gallery/in-galaxy-m54-5g-sm-m546-sm-m546bzbeins-thumb-535852718",
         brand: "Samsung",
         category: "Mobile",
-        stock: 42,
+        countInStock: 42,
         rating: 4.3,
         numReviews: 134,
         discount: 15
@@ -244,7 +244,7 @@ const mobileProducts = [
         image: "https://in.nothing.tech/cdn/shop/products/Phone1Front.png",
         brand: "Nothing",
         category: "Mobile",
-        stock: 15,
+        countInStock: 15,
         rating: 4.2,
         numReviews: 98,
         discount: 25
@@ -256,7 +256,7 @@ const mobileProducts = [
         image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-blue?wid=5120&hei=2880&fmt=p-jpg",
         brand: "Apple",
         category: "Mobile",
-        stock: 32,
+        countInStock: 32,
         rating: 4.6,
         numReviews: 212,
         discount: 15
@@ -268,7 +268,7 @@ const mobileProducts = [
         image: "https://image01.oneplus.net/ebp/202308/16/1-m00-52-36-rb8lb2tXwxoafl6taanagbzjhxm436.png",
         brand: "OnePlus",
         category: "Mobile",
-        stock: 38,
+        countInStock: 38,
         rating: 4.3,
         numReviews: 156,
         discount: 18
@@ -280,7 +280,7 @@ const mobileProducts = [
         image: "https://i02.appmifile.com/285_operator_sg/07/10/2022/3c199e4fa690472e08b9d5a6c6d1e052.png",
         brand: "Xiaomi",
         category: "Mobile",
-        stock: 22,
+        countInStock: 22,
         rating: 4.5,
         numReviews: 143,
         discount: 12
@@ -292,7 +292,7 @@ const mobileProducts = [
         image: "https://images.samsung.com/is/image/samsung/p6pim/in/sm-a346ezkeins/gallery/in-galaxy-a34-5g-sm-a346-sm-a346ezkeins-thumb-535265899",
         brand: "Samsung",
         category: "Mobile",
-        stock: 48,
+        countInStock: 48,
         rating: 4.2,
         numReviews: 167,
         discount: 20
@@ -304,7 +304,7 @@ const mobileProducts = [
         image: "https://lh3.googleusercontent.com/Z4sNAkOcwx8vpxUVYZK1maPpzxvXO5kVJwm8nGYJqKsNvJkYeEfqgJJM2ZaoPKFAy_m4RyNO3GRxwHqNxv-VHRY-0h6tTLTl=w1000-rw",
         brand: "Google",
         category: "Mobile",
-        stock: 18,
+        countInStock: 18,
         rating: 4.6,
         numReviews: 178,
         discount: 15
@@ -316,7 +316,7 @@ const mobileProducts = [
         image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-finish-select-202207-6-1inch-blue?wid=5120&hei=2880&fmt=p-jpg",
         brand: "Apple",
         category: "Mobile",
-        stock: 25,
+        countInStock: 25,
         rating: 4.7,
         numReviews: 245,
         discount: 20
@@ -328,7 +328,7 @@ const mobileProducts = [
         image: "https://image01.oneplus.net/ebp/202208/03/1-m00-3d-f1-rb8lb2lqnqoagsn6aaj8cplqtj8114.png",
         brand: "OnePlus",
         category: "Mobile",
-        stock: 20,
+        countInStock: 20,
         rating: 4.4,
         numReviews: 134,
         discount: 25
@@ -340,7 +340,7 @@ const mobileProducts = [
         image: "https://i02.appmifile.com/285_operator_sg/07/10/2022/3c199e4fa690472e08b9d5a6c6d1e052.png",
         brand: "Xiaomi",
         category: "Mobile",
-        stock: 15,
+        countInStock: 15,
         rating: 4.3,
         numReviews: 123,
         discount: 30
@@ -352,7 +352,7 @@ const mobileProducts = [
         image: "https://images.samsung.com/is/image/samsung/p6pim/in/2302/gallery/in-galaxy-s23-s911-sm-s911bzgcins-thumb-534863401",
         brand: "Samsung",
         category: "Mobile",
-        stock: 28,
+        countInStock: 28,
         rating: 4.7,
         numReviews: 189,
         discount: 10
@@ -364,7 +364,7 @@ const mobileProducts = [
         image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-se-finish-select-202207-midnight?wid=5120&hei=2880&fmt=p-jpg",
         brand: "Apple",
         category: "Mobile",
-        stock: 35,
+        countInStock: 35,
         rating: 4.5,
         numReviews: 156,
         discount: 15

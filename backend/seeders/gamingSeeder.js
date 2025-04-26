@@ -11,7 +11,7 @@ const gamingProducts = [
         image: "https://gmedia.playstation.com/is/image/SIEPDC/ps5-product-thumbnail-01-en-14sep21?$facebook$",
         brand: "Sony",
         category: "Gaming",
-        countInStock: 150,
+        countInStock: 100,
         rating: 4.9,
         numReviews: 320,
         isFeatured: true,
