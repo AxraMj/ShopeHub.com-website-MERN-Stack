@@ -27,6 +27,7 @@ export const registerUser = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 isAdmin: user.isAdmin,
+                address: user.address,
                 token,
             });
         }
@@ -50,6 +51,7 @@ export const loginUser = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 isAdmin: user.isAdmin,
+                address: user.address,
                 token,
             });
         } else {
@@ -104,6 +106,7 @@ export const getUserProfile = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 isAdmin: user.isAdmin,
+                address: user.address,
                 token: req.token
             });
         } else {
@@ -125,6 +128,18 @@ export const updateUserProfile = async (req, res) => {
             user.name = req.body.name || user.name;
             user.email = req.body.email || user.email;
 
+            // Update address fields if provided
+            if (req.body.address) {
+                user.address = {
+                    street: req.body.address.street || user.address?.street || '',
+                    city: req.body.address.city || user.address?.city || '',
+                    state: req.body.address.state || user.address?.state || '',
+                    postalCode: req.body.address.postalCode || user.address?.postalCode || '',
+                    country: req.body.address.country || user.address?.country || 'India',
+                    phone: req.body.address.phone || user.address?.phone || ''
+                };
+            }
+
             if (req.body.currentPassword && req.body.newPassword) {
                 const isMatch = await user.matchPassword(req.body.currentPassword);
                 if (!isMatch) {
@@ -140,6 +155,7 @@ export const updateUserProfile = async (req, res) => {
                 name: updatedUser.name,
                 email: updatedUser.email,
                 isAdmin: updatedUser.isAdmin,
+                address: updatedUser.address,
                 token: req.token
             });
         } else {

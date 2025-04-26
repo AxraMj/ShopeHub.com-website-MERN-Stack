@@ -11,7 +11,8 @@ import {
     Grid,
     Divider,
     Alert,
-    CircularProgress
+    CircularProgress,
+    MenuItem
 } from '@mui/material';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -29,8 +30,29 @@ const Profile = () => {
         email: '',
         currentPassword: '',
         newPassword: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        address: {
+            street: '',
+            city: '',
+            state: '',
+            postalCode: '',
+            country: 'India',
+            phone: ''
+        }
     });
+
+    // List of Indian states
+    const indianStates = [
+        'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
+        'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand',
+        'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur',
+        'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab',
+        'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura',
+        'Uttar Pradesh', 'Uttarakhand', 'West Bengal',
+        'Andaman and Nicobar Islands', 'Chandigarh',
+        'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Lakshadweep',
+        'Puducherry'
+    ];
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -54,7 +76,15 @@ const Profile = () => {
                     email: response.data.email,
                     currentPassword: '',
                     newPassword: '',
-                    confirmPassword: ''
+                    confirmPassword: '',
+                    address: {
+                        street: response.data.address?.street || '',
+                        city: response.data.address?.city || '',
+                        state: response.data.address?.state || '',
+                        postalCode: response.data.address?.postalCode || '',
+                        country: response.data.address?.country || 'India',
+                        phone: response.data.address?.phone || ''
+                    }
                 });
                 setLoading(false);
             } catch (err) {
@@ -72,10 +102,22 @@ const Profile = () => {
     }, [navigate, isAuthenticated, authUser]);
 
     const handleInputChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+        const { name, value } = e.target;
+        if (name.startsWith('address.')) {
+            const addressField = name.split('.')[1];
+            setFormData(prev => ({
+                ...prev,
+                address: {
+                    ...prev.address,
+                    [addressField]: value
+                }
+            }));
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -98,7 +140,8 @@ const Profile = () => {
 
             const updateData = {
                 name: formData.name,
-                email: formData.email
+                email: formData.email,
+                address: formData.address
             };
 
             if (formData.currentPassword && formData.newPassword) {
@@ -120,12 +163,12 @@ const Profile = () => {
             updateUserInfo(response.data);
             setSuccess(true);
             setEditMode(false);
-            setFormData({
-                ...formData,
+            setFormData(prev => ({
+                ...prev,
                 currentPassword: '',
                 newPassword: '',
                 confirmPassword: ''
-            });
+            }));
         } catch (err) {
             console.error('Error:', err);
             if (err.response?.status === 401) {
@@ -179,6 +222,12 @@ const Profile = () => {
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
+                            <Typography variant="h6" gutterBottom>
+                                Basic Information
+                            </Typography>
+                        </Grid>
+                        
+                        <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
                                 label="Name"
@@ -188,13 +237,85 @@ const Profile = () => {
                                 disabled={!editMode}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
                                 label="Email"
                                 name="email"
                                 type="email"
                                 value={formData.email}
+                                onChange={handleInputChange}
+                                disabled={!editMode}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <Divider sx={{ my: 2 }}>
+                                <Typography variant="h6" color="textSecondary">
+                                    Delivery Address
+                                </Typography>
+                            </Divider>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                label="Street Address"
+                                name="address.street"
+                                value={formData.address.street}
+                                onChange={handleInputChange}
+                                disabled={!editMode}
+                                multiline
+                                rows={2}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                fullWidth
+                                label="City"
+                                name="address.city"
+                                value={formData.address.city}
+                                onChange={handleInputChange}
+                                disabled={!editMode}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                fullWidth
+                                select
+                                label="State"
+                                name="address.state"
+                                value={formData.address.state}
+                                onChange={handleInputChange}
+                                disabled={!editMode}
+                            >
+                                {indianStates.map((state) => (
+                                    <MenuItem key={state} value={state}>
+                                        {state}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </Grid>
+
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                fullWidth
+                                label="Postal Code"
+                                name="address.postalCode"
+                                value={formData.address.postalCode}
+                                onChange={handleInputChange}
+                                disabled={!editMode}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                fullWidth
+                                label="Phone Number"
+                                name="address.phone"
+                                value={formData.address.phone}
                                 onChange={handleInputChange}
                                 disabled={!editMode}
                             />
@@ -273,7 +394,15 @@ const Profile = () => {
                                                 email: user.email,
                                                 currentPassword: '',
                                                 newPassword: '',
-                                                confirmPassword: ''
+                                                confirmPassword: '',
+                                                address: {
+                                                    street: user.address?.street || '',
+                                                    city: user.address?.city || '',
+                                                    state: user.address?.state || '',
+                                                    postalCode: user.address?.postalCode || '',
+                                                    country: user.address?.country || 'India',
+                                                    phone: user.address?.phone || ''
+                                                }
                                             });
                                         }}
                                     >
