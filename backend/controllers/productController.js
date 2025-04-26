@@ -5,7 +5,14 @@ import Product from '../models/Product.js';
 // @route   GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
-    const products = await Product.find({});
+    const { category } = req.query;
+    const queryObject = {};
+
+    if (category) {
+        queryObject.category = { $regex: new RegExp(category, 'i') };
+    }
+
+    const products = await Product.find(queryObject);
     res.json(products);
 });
 
@@ -150,9 +157,18 @@ const addReview = asyncHandler(async (req, res) => {
 // @access  Public
 const getProductsByCategory = asyncHandler(async (req, res) => {
     const { category } = req.params;
-    const products = await Product.find({ 
-        category: { $regex: new RegExp(category, 'i') } 
+    
+    // First try exact match
+    let products = await Product.find({ 
+        category: { $regex: new RegExp('^' + category + '$', 'i') }
     });
+    
+    // If no products found, try partial match
+    if (products.length === 0) {
+        products = await Product.find({ 
+            category: { $regex: new RegExp(category, 'i') }
+        });
+    }
     
     if (products.length === 0) {
         res.status(404);

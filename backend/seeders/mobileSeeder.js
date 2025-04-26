@@ -6,30 +6,30 @@ dotenv.config();
 
 const mobileProducts = [
     {
-        name: "iPhone 15 Pro Max",
-        description: "A17 Pro chip, 6.7-inch OLED display, 48MP camera system with 5x optical zoom",
-        price: 1199.99,
-        image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-7inch-naturaltitanium?wid=5120&hei=2880&fmt=p-jpg",
+        name: "iPhone 14 Pro Max",
+        description: "6.7-inch Super Retina XDR display, A16 Bionic chip, 48MP main camera",
+        price: 1099.99,
+        image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-14-pro-finish-select-202209-6-7inch-deeppurple?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1663703841896",
         brand: "Apple",
         category: "Mobile",
-        stock: 25,
+        countInStock: 100,
         rating: 4.9,
-        numReviews: 245,
+        numReviews: 250,
         isFeatured: true,
-        discount: 0
+        discountPercentage: 5
     },
     {
         name: "Samsung Galaxy S23 Ultra",
-        description: "200MP camera, S Pen included, 6.8-inch Dynamic AMOLED 2X",
+        description: "6.8-inch Dynamic AMOLED 2X, 200MP camera, S Pen included",
         price: 1199.99,
-        image: "https://images.samsung.com/in/smartphones/galaxy-s23-ultra/images/galaxy-s23-ultra-highlights-kv.jpg",
+        image: "https://images.samsung.com/is/image/samsung/p6pim/in/2302/gallery/in-galaxy-s23-ultra-s918-sm-s918bzkcins-thumb-534863401",
         brand: "Samsung",
         category: "Mobile",
-        stock: 30,
+        countInStock: 85,
         rating: 4.8,
-        numReviews: 189,
+        numReviews: 180,
         isFeatured: true,
-        discount: 10
+        discountPercentage: 10
     },
     {
         name: "Google Pixel 8 Pro",

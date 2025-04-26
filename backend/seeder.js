@@ -25,7 +25,7 @@ const products = [
         image: 'https://images.pexels.com/photos/974964/pexels-photo-974964.jpeg?cs=srgb&dl=pexels-olly-974964.jpg&fm=jpg',
         brand: 'Special Offer',
         category: 'Promotion',
-        countInStock: 0,
+        countInStock: 999,
         rating: 0,
         numReviews: 0,
         isFeatured: true
@@ -37,7 +37,7 @@ const products = [
         image: 'https://mrwallpaper.com/images/hd/shopping-girl-fashion-bmcc1ws4ptcip9dl.jpg',
         brand: 'New Collection',
         category: 'Promotion',
-        countInStock: 0,
+        countInStock: 999,
         rating: 0,
         numReviews: 0,
         isFeatured: true
@@ -49,7 +49,7 @@ const products = [
         image: 'https://c4.wallpaperflare.com/wallpaper/448/52/893/beautiful-eyewear-fashion-female-wallpaper-preview.jpg',
         brand: 'Flash Sale',
         category: 'Promotion',
-        countInStock: 0,
+        countInStock: 999,
         rating: 0,
         numReviews: 0,
         isFeatured: true
@@ -61,7 +61,7 @@ const products = [
         image: 'https://c4.wallpaperflare.com/wallpaper/868/234/504/clock-time-watch-zenith-wallpaper-preview.jpg',
         brand: 'Special Offer',
         category: 'Promotion',
-        countInStock: 0,
+        countInStock: 999,
         rating: 0,
         numReviews: 0,
         isFeatured: true
@@ -73,7 +73,7 @@ const products = [
         image: 'https://w0.peakpx.com/wallpaper/417/463/HD-wallpaper-zenith-fashion-watches.jpg',
         brand: 'Membership',
         category: 'Promotion',
-        countInStock: 0,
+        countInStock: 999,
         rating: 0,
         numReviews: 0,
         isFeatured: true
@@ -85,7 +85,7 @@ const products = [
         image: 'https://m.media-amazon.com/images/I/61eA9PkZ07L._SL1500_.jpg',
         brand: 'Apple',
         category: 'Electronics',
-        countInStock: 10,
+        countInStock: 50,
         rating: 4.9,
         numReviews: 128,
         isFeatured: false,
@@ -123,7 +123,7 @@ const products = [
         image: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTjvjRpQLWsaHbV5_miP8IrRQrJm7YH9n8t57GxQs2svdOoHWgq3OyaFDHomGqQypYNzwki_HacTZKpdiUy325m_4WE_G_FCzA13AkxlsybZQnMC9RUmUiCcA',
         brand: 'KitchenAid',
         category: 'Home & Kitchen',
-        countInStock: 8,
+        countInStock: 35,
         rating: 4.8,
         numReviews: 132,
         isFeatured: false,
@@ -137,7 +137,7 @@ const products = [
         image: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcT-aOUj_Pxb9PNck9AVC4MR4jUsReetlVmphgn6dxwELxYQqS3-2MRV4o34SvgxrfW1bQ3BidbRAoM4nMzUv13TTxv0cc6Uw3Ep8W2GvR2-kic_SyJq50xY',
         brand: 'Sony',
         category: 'Electronics',
-        countInStock: 5,
+        countInStock: 40,
         rating: 4.9,
         numReviews: 89,
         isFeatured: false,
@@ -165,7 +165,7 @@ const products = [
         image: 'https://m.media-amazon.com/images/I/71z7zty0XQL._SL1500_.jpg',
         brand: 'Dyson',
         category: 'Beauty',
-        countInStock: 7,
+        countInStock: 30,
         rating: 4.8,
         numReviews: 167,
         isFeatured: false
@@ -177,7 +177,7 @@ const products = [
         image: 'https://m.media-amazon.com/images/I/71cSUQc9EJL._AC_SL1500_.jpg',
         brand: 'Canon',
         category: 'Electronics',
-        countInStock: 6,
+        countInStock: 25,
         rating: 4.9,
         numReviews: 78,
         isFeatured: false
@@ -189,7 +189,7 @@ const products = [
         image: 'https://m.media-amazon.com/images/I/71cSUQc9EJL._AC_SL1500_.jpg',
         brand: 'Rolex',
         category: 'Accessories',
-        countInStock: 3,
+        countInStock: 20,
         rating: 4.9,
         numReviews: 45,
         isFeatured: false
@@ -201,7 +201,7 @@ const products = [
         image: 'https://m.media-amazon.com/images/I/71cSUQc9EJL._AC_SL1500_.jpg',
         brand: 'Tesla',
         category: 'Automotive',
-        countInStock: 2,
+        countInStock: 25,
         rating: 4.9,
         numReviews: 156,
         isFeatured: false

@@ -13,8 +13,8 @@ const auth = asyncHandler(async (req, res, next) => {
             // Verify token
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-            // Get user from token
-            req.user = await User.findById(decoded.id).select('-password');
+            // Get user from token - using _id instead of id
+            req.user = await User.findById(decoded._id).select('-password');
 
             next();
         } catch (error) {
@@ -30,4 +30,4 @@ const auth = asyncHandler(async (req, res, next) => {
     }
 });
 
-export default auth; 
+export default auth;

@@ -12,11 +12,11 @@ const electronicsProducts = [
         image: "https://images.samsung.com/is/image/samsung/p6pim/in/ua65cu8570uxxl/gallery/in-uhd-4k-tv-ua65cu8570uxxl-537344530?$650_519_PNG$",
         brand: "Samsung",
         category: "Electronics",
-        stock: 15,
+        countInStock: 50,
         rating: 4.8,
         numReviews: 120,
         isFeatured: true,
-        discount: 15
+        discountPercentage: 15
     },
     {
         name: "Sony WH-1000XM5 Headphones",
@@ -25,11 +25,11 @@ const electronicsProducts = [
         image: "https://electronics.sony.com/image/a27f6c5e3a2af3f38bfb5040e0f0d349/WH-1000XM5_Product_Black.png",
         brand: "Sony",
         category: "Electronics",
-        stock: 25,
+        countInStock: 75,
         rating: 4.9,
         numReviews: 85,
         isFeatured: true,
-        discount: 10
+        discountPercentage: 10
     },
     {
         name: "Apple MacBook Pro 14-inch",

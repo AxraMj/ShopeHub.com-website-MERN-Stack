@@ -6,30 +6,30 @@ dotenv.config();
 
 const homeApplianceProducts = [
     {
-        name: "Samsung 4K Smart TV 55\"",
-        description: "Crystal UHD 4K Smart TV with HDR, Smart Hub, and Alexa Built-in",
-        price: 699.99,
-        image: "https://images.pexels.com/photos/3944405/pexels-photo-3944405.jpeg",
+        name: "Samsung French Door Refrigerator",
+        description: "28 cu. ft. capacity, Twin Cooling Plus, FlexZone drawer",
+        price: 2199.99,
+        image: "https://images.samsung.com/is/image/samsung/p6pim/in/rf28t5f01sr-hl/gallery/in-french-door-rf28t5f01sr-hl-thumb-383563950",
         brand: "Samsung",
-        category: "Home & Kitchen",
-        stock: 15,
-        rating: 4.5,
-        numReviews: 120,
+        category: "Home Appliances",
+        countInStock: 45,
+        rating: 4.7,
+        numReviews: 150,
         isFeatured: true,
-        discount: 10
+        discountPercentage: 10
     },
     {
-        name: "LG Front Load Washing Machine",
-        description: "Smart Wi-Fi Enabled Front Load Washer with Steam Technology",
+        name: "LG Front Load Washer",
+        description: "4.5 cu. ft., TurboWash, Steam technology, Wi-Fi enabled",
         price: 899.99,
-        image: "https://images.pexels.com/photos/3944405/pexels-photo-3944405.jpeg",
+        image: "https://www.lg.com/us/images/washer-dryer-combos/md07000027/gallery/desktop-01.jpg",
         brand: "LG",
-        category: "Home & Kitchen",
-        stock: 8,
-        rating: 4.7,
-        numReviews: 85,
+        category: "Home Appliances",
+        countInStock: 60,
+        rating: 4.8,
+        numReviews: 180,
         isFeatured: true,
-        discount: 15
+        discountPercentage: 15
     },
     {
         name: "Whirlpool French Door Refrigerator",

@@ -6,29 +6,29 @@ dotenv.config();
 const gamingProducts = [
     {
         name: "PlayStation 5 Console",
-        description: "Next-gen gaming console with ultra-high speed SSD, ray tracing, and 4K gaming capabilities.",
+        description: "Next-gen gaming with ultra-high speed SSD, ray tracing, and 4K gaming",
         price: 499.99,
-        image: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db",
+        image: "https://gmedia.playstation.com/is/image/SIEPDC/ps5-product-thumbnail-01-en-14sep21?$facebook$",
         brand: "Sony",
         category: "Gaming",
-        stock: 15,
-        rating: 4.8,
-        numReviews: 120,
+        countInStock: 150,
+        rating: 4.9,
+        numReviews: 320,
         isFeatured: true,
-        discount: 0
+        discountPercentage: 0
     },
     {
         name: "Xbox Series X",
-        description: "Powerful gaming console with 12 teraflops of processing power and 4K gaming support.",
+        description: "4K gaming at up to 120 FPS, 1TB SSD, Xbox Velocity Architecture",
         price: 499.99,
-        image: "https://images.unsplash.com/photo-1621259182978-fbf93132d53d",
+        image: "https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4mRni",
         brand: "Microsoft",
         category: "Gaming",
-        stock: 20,
-        rating: 4.7,
-        numReviews: 95,
+        countInStock: 120,
+        rating: 4.8,
+        numReviews: 280,
         isFeatured: true,
-        discount: 0
+        discountPercentage: 5
     },
     {
         name: "Nintendo Switch OLED",

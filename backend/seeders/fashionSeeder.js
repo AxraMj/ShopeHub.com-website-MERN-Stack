@@ -6,6 +6,32 @@ dotenv.config();
 
 const fashionProducts = [
     {
+        name: "Nike Air Max 270",
+        description: "Men's running shoes with Air cushioning and breathable mesh upper",
+        price: 149.99,
+        image: "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/skwgyqrbfzhu6uyeh0gg/air-max-270-shoes-2V5C4p.png",
+        brand: "Nike",
+        category: "Fashion",
+        countInStock: 200,
+        rating: 4.8,
+        numReviews: 450,
+        isFeatured: true,
+        discountPercentage: 20
+    },
+    {
+        name: "Levi's 501 Original Fit Jeans",
+        description: "Classic straight leg jeans with button fly, 100% cotton denim",
+        price: 69.99,
+        image: "https://lsco.scene7.com/is/image/lsco/005010194-front-pdp?fmt=jpeg&qlt=70&resMode=bisharp&fit=crop,0&op_usm=1.25,0.6,8&wid=2000&hei=2000",
+        brand: "Levi's",
+        category: "Fashion",
+        countInStock: 300,
+        rating: 4.7,
+        numReviews: 380,
+        isFeatured: true,
+        discountPercentage: 15
+    },
+    {
         name: "Men's Slim Fit T-Shirt",
         description: "100% cotton, comfortable slim fit t-shirt with crew neck",
         price: 19.99,
