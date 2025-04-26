@@ -89,51 +89,58 @@ const addToCart = async (req, res) => {
 
 // Update cart item quantity
 const updateCartItem = async (req, res) => {
-    const { productId, quantity } = req.body;
-    
-    if (!productId || quantity === undefined) {
-        throw new BadRequestError('Please provide product ID and quantity');
-    }
-
-    const cart = await Cart.findOne({ user: req.user._id });
-    if (!cart) {
-        throw new NotFoundError('Cart not found');
-    }
-
-    const itemIndex = cart.items.findIndex(item => 
-        item.product.toString() === productId
-    );
-
-    if (itemIndex === -1) {
-        throw new NotFoundError('Item not found in cart');
-    }
-
-    if (quantity <= 0) {
-        // Remove item if quantity is 0 or negative
-        cart.items.splice(itemIndex, 1);
-    } else {
-        // Validate product exists and has sufficient stock
-        const product = await Product.findById(productId);
-        if (!product) {
-            throw new NotFoundError('Product not found');
-        }
+    try {
+        const { productId, quantity } = req.body;
         
-        if (product.countInStock < quantity) {
-            throw new BadRequestError('Insufficient stock');
+        if (!productId || quantity === undefined) {
+            throw new BadRequestError('Please provide product ID and quantity');
         }
 
-        // Update quantity and price
-        cart.items[itemIndex].quantity = quantity;
-        cart.items[itemIndex].price = product.price;
+        const cart = await Cart.findOne({ user: req.user._id });
+        if (!cart) {
+            throw new NotFoundError('Cart not found');
+        }
+
+        const itemIndex = cart.items.findIndex(item => 
+            item.product.toString() === productId
+        );
+
+        if (itemIndex === -1) {
+            throw new NotFoundError('Item not found in cart');
+        }
+
+        if (quantity <= 0) {
+            // Remove item if quantity is 0 or negative
+            cart.items.splice(itemIndex, 1);
+        } else {
+            // Validate product exists and has sufficient stock
+            const product = await Product.findById(productId);
+            if (!product) {
+                throw new NotFoundError('Product not found');
+            }
+            
+            if (product.countInStock < quantity) {
+                throw new BadRequestError(`Cannot update quantity. Only ${product.countInStock} items available in stock.`);
+            }
+
+            // Update quantity and price
+            cart.items[itemIndex].quantity = quantity;
+            cart.items[itemIndex].price = product.price;
+        }
+
+        await cart.calculateTotal();
+        await cart.save();
+
+        // Populate product details before sending response
+        await cart.populate('items.product', 'name price image countInStock');
+        
+        res.status(StatusCodes.OK).json(cart);
+    } catch (error) {
+        if (error.name === 'ValidationError') {
+            throw new BadRequestError(error.message);
+        }
+        throw error;
     }
-
-    await cart.calculateTotal();
-    await cart.save();
-
-    // Populate product details before sending response
-    await cart.populate('items.product', 'name price images countInStock');
-    
-    res.status(StatusCodes.OK).json({ cart });
 };
 
 // Remove item from cart
