@@ -12,7 +12,7 @@ const mobileProducts = [
         image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-14-pro-finish-select-202209-6-7inch-deeppurple?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1663703841896",
         brand: "Apple",
         category: "Mobile",
-        countInStock: 100,
+        countInStock: 150,
         rating: 4.9,
         numReviews: 250,
         isFeatured: true,

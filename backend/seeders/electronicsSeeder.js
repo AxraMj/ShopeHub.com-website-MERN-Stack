@@ -12,7 +12,7 @@ const electronicsProducts = [
         image: "https://images.samsung.com/is/image/samsung/p6pim/in/ua65cu8570uxxl/gallery/in-uhd-4k-tv-ua65cu8570uxxl-537344530?$650_519_PNG$",
         brand: "Samsung",
         category: "Electronics",
-        countInStock: 50,
+        countInStock: 100,
         rating: 4.8,
         numReviews: 120,
         isFeatured: true,
@@ -25,7 +25,7 @@ const electronicsProducts = [
         image: "https://electronics.sony.com/image/a27f6c5e3a2af3f38bfb5040e0f0d349/WH-1000XM5_Product_Black.png",
         brand: "Sony",
         category: "Electronics",
-        countInStock: 75,
+        countInStock: 150,
         rating: 4.9,
         numReviews: 85,
         isFeatured: true,
@@ -38,7 +38,7 @@ const electronicsProducts = [
         image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp14-spacegray-select-202301?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1671304673229",
         brand: "Apple",
         category: "Electronics",
-        stock: 10,
+        countInStock: 100,
         rating: 4.9,
         numReviews: 150,
         isFeatured: true,
@@ -51,7 +51,7 @@ const electronicsProducts = [
         image: "https://www.bose.com/content/dam/Bose_DAM/Web/consumer_electronics/global/products/headphones/qc45/product_silo_images/QC45_PDP_Ecom-Gallery-B01.png",
         brand: "Bose",
         category: "Electronics",
-        stock: 20,
+        countInStock: 100,
         rating: 4.7,
         numReviews: 95,
         discount: 8
@@ -63,7 +63,7 @@ const electronicsProducts = [
         image: "https://www.dji.com/content/dam/dji-mkt/products/mini-3-pro/images/mini-3-pro-1.png",
         brand: "DJI",
         category: "Electronics",
-        stock: 8,
+        countInStock: 60,
         rating: 4.8,
         numReviews: 45,
         discount: 12
@@ -75,7 +75,7 @@ const electronicsProducts = [
         image: "https://resource.logitech.com/content/dam/logitech/en/products/mice/mx-master-3s/gallery/mx-master-3s-mouse-top-view-graphite.png",
         brand: "Logitech",
         category: "Electronics",
-        stock: 30,
+        countInStock: 75,
         rating: 4.6,
         numReviews: 120,
         discount: 5
@@ -87,7 +87,7 @@ const electronicsProducts = [
         image: "https://images.samsung.com/is/image/samsung/p6pim/levant/2302/gallery/levant-galaxy-s23-ultra-s918-sm-s918bzgcmea-thumb-534863401",
         brand: "Samsung",
         category: "Electronics",
-        stock: 15,
+        countInStock: 150,
         rating: 4.8,
         numReviews: 200,
         isFeatured: true,
@@ -100,7 +100,7 @@ const electronicsProducts = [
         image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-12-select-wifi-spacegray-202104?wid=470&hei=556&fmt=png-alpha&.v=1617126613000",
         brand: "Apple",
         category: "Electronics",
-        stock: 12,
+        countInStock: 100,
         rating: 4.9,
         numReviews: 180,
         discount: 8
@@ -112,7 +112,7 @@ const electronicsProducts = [
         image: "https://gmedia.playstation.com/is/image/SIEPDC/ps5-product-thumbnail-01-en-14sep21?$facebook$",
         brand: "Sony",
         category: "Electronics",
-        stock: 5,
+        countInStock: 100,
         rating: 4.9,
         numReviews: 300,
         isFeatured: true,
@@ -125,7 +125,7 @@ const electronicsProducts = [
         image: "https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RWBrzy?ver=85d4",
         brand: "Microsoft",
         category: "Electronics",
-        stock: 8,
+        countInStock: 75,
         rating: 4.7,
         numReviews: 90,
         discount: 12
@@ -137,7 +137,7 @@ const electronicsProducts = [
         image: "https://gopro.com/content/dam/help/hero11-black/product-tour/en/HERO11-Black-Product-Tour-1.png",
         brand: "GoPro",
         category: "Electronics",
-        stock: 15,
+        countInStock: 80,
         rating: 4.8,
         numReviews: 75,
         discount: 10
@@ -149,7 +149,7 @@ const electronicsProducts = [
         image: "https://images.samsung.com/is/image/samsung/p6pim/in/2208/gallery/in-galaxy-watch5-pro-r920-sm-r925fzadinu-thumb-534864170",
         brand: "Samsung",
         category: "Electronics",
-        stock: 20,
+        countInStock: 90,
         rating: 4.7,
         numReviews: 110,
         discount: 15
@@ -161,7 +161,7 @@ const electronicsProducts = [
         image: "https://store.storeimages.cdn.apple.com/4982/as-images.apple.com/is/MQD83?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1660803972361",
         brand: "Apple",
         category: "Electronics",
-        stock: 25,
+        countInStock: 120,
         rating: 4.8,
         numReviews: 200,
         discount: 5
@@ -173,7 +173,7 @@ const electronicsProducts = [
         image: "https://www.bose.com/content/dam/Bose_DAM/Web/consumer_electronics/global/products/speakers/soundlink_revolve_plus_ii/product_silo_images/SoundLink_Revolve_Plus_II_Black_ECOM.png",
         brand: "Bose",
         category: "Electronics",
-        stock: 18,
+        countInStock: 85,
         rating: 4.7,
         numReviews: 85,
         discount: 8
@@ -185,7 +185,7 @@ const electronicsProducts = [
         image: "https://electronics.sony.com/image/5d02da5c0f99f0fbe7d0fc727d61d390/Alpha-7-IV-wFE-28-70mm-lens.png",
         brand: "Sony",
         category: "Electronics",
-        stock: 6,
+        countInStock: 50,
         rating: 4.9,
         numReviews: 45,
         discount: 0
@@ -197,7 +197,7 @@ const electronicsProducts = [
         image: "https://resource.logitech.com/content/dam/logitech/en/products/keyboards/mx-keys-mini/gallery/mx-keys-mini-keyboard-top-view-graphite.png",
         brand: "Logitech",
         category: "Electronics",
-        stock: 22,
+        countInStock: 75,
         rating: 4.6,
         numReviews: 95,
         discount: 10
@@ -209,7 +209,7 @@ const electronicsProducts = [
         image: "https://images.samsung.com/is/image/samsung/p6pim/in/sm-x900nzaainu/gallery/in-galaxy-tab-s8-ultra-x900-sm-x900nzaainu-531606160",
         brand: "Samsung",
         category: "Electronics",
-        stock: 10,
+        countInStock: 80,
         rating: 4.8,
         numReviews: 70,
         discount: 12
@@ -221,7 +221,7 @@ const electronicsProducts = [
         image: "https://store.storeimages.cdn.apple.com/4982/as-images.apple.com/is/mac-studio-select-202306?wid=452&hei=420&fmt=jpeg&qlt=95&.v=1683228470103",
         brand: "Apple",
         category: "Electronics",
-        stock: 5,
+        countInStock: 50,
         rating: 4.9,
         numReviews: 40,
         discount: 0
@@ -233,7 +233,7 @@ const electronicsProducts = [
         image: "https://electronics.sony.com/image/5d02da5c0f99f0fbe7d0fc727d61d390/WF-1000XM4_Product_Black.png",
         brand: "Sony",
         category: "Electronics",
-        stock: 18,
+        countInStock: 100,
         rating: 4.8,
         numReviews: 150,
         discount: 15
@@ -245,7 +245,7 @@ const electronicsProducts = [
         image: "https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4OXzi",
         brand: "Microsoft",
         category: "Electronics",
-        stock: 8,
+        countInStock: 75,
         rating: 4.7,
         numReviews: 85,
         discount: 10
@@ -257,7 +257,7 @@ const electronicsProducts = [
         image: "https://www.bose.com/content/dam/Bose_DAM/Web/consumer_electronics/global/products/earbuds/qc-earbuds-ii/product_silo_images/QC_Earbuds_II_PDP_Ecom-Gallery-B01.png",
         brand: "Bose",
         category: "Electronics",
-        stock: 15,
+        countInStock: 15,
         rating: 4.8,
         numReviews: 120,
         discount: 8
@@ -269,7 +269,7 @@ const electronicsProducts = [
         image: "https://images.samsung.com/is/image/samsung/p6pim/in/lc49g95tsswxxl/gallery/in-odyssey-g9-lc49g95tsswxxl-532554190",
         brand: "Samsung",
         category: "Electronics",
-        stock: 4,
+        countInStock: 4,
         rating: 4.9,
         numReviews: 65,
         discount: 12
@@ -281,7 +281,7 @@ const electronicsProducts = [
         image: "https://store.storeimages.cdn.apple.com/4982/as-images.apple.com/is/studio-display-gallery-1-202203?wid=2000&hei=1536&fmt=png-alpha&.v=1645052169441",
         brand: "Apple",
         category: "Electronics",
-        stock: 6,
+        countInStock: 6,
         rating: 4.8,
         numReviews: 55,
         discount: 0
@@ -293,7 +293,7 @@ const electronicsProducts = [
         image: "https://www.sony.com/image/4a0a1b1b1b1b1b1b1b1b1b1b1b1b1b1b",
         brand: "Sony",
         category: "Electronics",
-        stock: 3,
+        countInStock: 3,
         rating: 4.9,
         numReviews: 30,
         discount: 5
@@ -305,7 +305,7 @@ const electronicsProducts = [
         image: "https://resource.logitech.com/content/dam/logitech/en/products/keyboards/mx-mechanical/gallery/mx-mechanical-keyboard-top-view-graphite.png",
         brand: "Logitech",
         category: "Electronics",
-        stock: 20,
+        countInStock: 20,
         rating: 4.7,
         numReviews: 80,
         discount: 10
@@ -317,7 +317,7 @@ const electronicsProducts = [
         image: "https://images.samsung.com/is/image/samsung/p6pim/in/2208/gallery/in-galaxy-z-fold4-f936-sm-f936bzsdinu-thumb-534864170",
         brand: "Samsung",
         category: "Electronics",
-        stock: 7,
+        countInStock: 7,
         rating: 4.8,
         numReviews: 95,
         discount: 15
@@ -329,7 +329,7 @@ const electronicsProducts = [
         image: "https://store.storeimages.cdn.apple.com/4982/as-images.apple.com/is/mac-mini-hero-202301?wid=400&hei=400&fmt=jpeg&qlt=95&.v=1670032439499",
         brand: "Apple",
         category: "Electronics",
-        stock: 12,
+        countInStock: 12,
         rating: 4.8,
         numReviews: 70,
         discount: 8
@@ -341,7 +341,7 @@ const electronicsProducts = [
         image: "https://electronics.sony.com/image/5d02da5c0f99f0fbe7d0fc727d61d390/WH-1000XM4_Product_Black.png",
         brand: "Sony",
         category: "Electronics",
-        stock: 15,
+        countInStock: 15,
         rating: 4.8,
         numReviews: 180,
         discount: 12
@@ -353,7 +353,7 @@ const electronicsProducts = [
         image: "https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4OXzi",
         brand: "Microsoft",
         category: "Electronics",
-        stock: 6,
+        countInStock: 6,
         rating: 4.7,
         numReviews: 60,
         discount: 10

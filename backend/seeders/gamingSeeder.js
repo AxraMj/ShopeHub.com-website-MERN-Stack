@@ -37,7 +37,7 @@ const gamingProducts = [
         image: "https://images.unsplash.com/photo-1621259182978-fbf93132d53d",
         brand: "Nintendo",
         category: "Gaming",
-        stock: 25,
+        countInStock: 75,
         rating: 4.6,
         numReviews: 80,
         isFeatured: true,

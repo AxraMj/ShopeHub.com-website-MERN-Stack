@@ -22,7 +22,10 @@ import {
     Tooltip,
     LinearProgress,
     Badge,
-    Zoom
+    Zoom,
+    Button,
+    TextField,
+    Snackbar
 } from '@mui/material';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -34,7 +37,11 @@ import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined';
 import StarIcon from '@mui/icons-material/Star';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import axios from 'axios';
+import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import AddToCart from '../components/AddToCart';
 
 const TabPanel = (props) => {
@@ -66,6 +73,13 @@ const ProductDetail = () => {
     const [tabValue, setTabValue] = useState(0);
     const [isImageZoomed, setIsImageZoomed] = useState(false);
     const [imageError, setImageError] = useState(false);
+    const [quantity, setQuantity] = useState(1);
+    const [selectedImage, setSelectedImage] = useState(0);
+    const [relatedProducts, setRelatedProducts] = useState([]);
+    const [addedToCart, setAddedToCart] = useState(false);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const { addToCart } = useCart();
+    const { user } = useAuth();
 
     const ratingDistribution = {
         5: 65,
@@ -80,8 +94,15 @@ const ProductDetail = () => {
             try {
                 const response = await axios.get(`${API_BASE_URL}/api/products/${id}`);
                 setProduct(response.data);
+                
+                // Fetch related products from the same category
+                const relatedResponse = await axios.get(
+                    `${API_BASE_URL}/api/products?category=${response.data.category}&limit=4&exclude=${id}`
+                );
+                setRelatedProducts(relatedResponse.data.products || []);
+                
                 setLoading(false);
-                // Update page title with product name
+                // Set page title
                 document.title = `${response.data.name} | ShopeHub`;
             } catch (err) {
                 setError(err.response?.data?.message || 'Error fetching product details');
@@ -90,8 +111,6 @@ const ProductDetail = () => {
         };
 
         fetchProduct();
-
-        // Cleanup
         return () => {
             document.title = 'ShopeHub';
         };
@@ -115,9 +134,46 @@ const ProductDetail = () => {
         setImageError(true);
     };
 
+    const handleQuantityChange = (event) => {
+        const value = parseInt(event.target.value);
+        if (value > 0 && value <= product.countInStock) {
+            setQuantity(value);
+        }
+    };
+
+    const handleAddToCart = async () => {
+        if (!user) {
+            setSnackbarOpen(true);
+            return;
+        }
+
+        try {
+            const result = await addToCart(product._id, quantity);
+            
+            if (result.success) {
+                setAddedToCart(true);
+                setSnackbarOpen(true);
+                
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    setAddedToCart(false);
+                }, 2000);
+            } else {
+                setSnackbarOpen(true);
+            }
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            setSnackbarOpen(true);
+        }
+    };
+
+    const handleCloseSnackbar = () => {
+        setSnackbarOpen(false);
+    };
+
     if (loading) {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
                 <CircularProgress />
             </Box>
         );
@@ -125,7 +181,7 @@ const ProductDetail = () => {
 
     if (error) {
         return (
-            <Container maxWidth="lg" sx={{ py: 4 }}>
+            <Container sx={{ py: 4 }}>
                 <Alert severity="error">{error}</Alert>
             </Container>
         );
@@ -133,11 +189,18 @@ const ProductDetail = () => {
 
     if (!product) {
         return (
-            <Container maxWidth="lg" sx={{ py: 4 }}>
+            <Container sx={{ py: 4 }}>
                 <Alert severity="info">Product not found</Alert>
             </Container>
         );
     }
+
+    // Generate product images array
+    const productImages = [
+        { url: product.image, alt: product.name },
+        { url: product.image, alt: `${product.name} - View 2` },
+        { url: product.image, alt: `${product.name} - View 3` }
+    ];
 
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -161,70 +224,106 @@ const ProductDetail = () => {
             </Breadcrumbs>
 
             <Grid container spacing={4}>
-                {/* Product Image */}
+                {/* Left Column - Product Images */}
                 <Grid item xs={12} md={6}>
-                    <Paper 
-                        elevation={2}
-                        sx={{ 
-                            p: 4,
-                            backgroundColor: theme.palette.background.paper,
-                            borderRadius: 2,
-                            height: '500px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            position: 'relative',
-                            overflow: 'hidden',
-                            cursor: 'zoom-in'
-                        }}
-                        onMouseEnter={() => handleImageHover(true)}
-                        onMouseLeave={() => handleImageHover(false)}
-                    >
-                        <img
-                            src={getImageUrl(product.image)}
-                            alt={product.name}
-                            onError={handleImageError}
-                            style={{
-                                maxWidth: '100%',
-                                maxHeight: '100%',
-                                objectFit: imageError ? 'contain' : 'cover',
-                                transition: 'transform 0.3s ease',
-                                transform: isImageZoomed ? 'scale(1.1)' : 'scale(1)'
-                            }}
-                        />
-                        <Stack 
-                            direction="row" 
-                            spacing={1} 
-                            sx={{ 
-                                position: 'absolute',
-                                top: 16,
-                                right: 16
+                    <Box sx={{ position: 'relative' }}>
+                        {/* Main Image */}
+                        <Box
+                            sx={{
+                                position: 'relative',
+                                backgroundColor: 'grey.50',
+                                borderRadius: 2,
+                                overflow: 'hidden',
+                                mb: 2,
+                                height: '500px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
                             }}
                         >
-                            <Tooltip title="Add to Wishlist" arrow>
-                                <IconButton size="small" sx={{ 
-                                    bgcolor: 'background.paper',
-                                    '&:hover': { bgcolor: theme.palette.primary.main, color: 'white' }
-                                }}>
-                                    <FavoriteBorderIcon fontSize="small" />
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Share Product" arrow>
-                                <IconButton size="small" sx={{ 
-                                    bgcolor: 'background.paper',
-                                    '&:hover': { bgcolor: theme.palette.primary.main, color: 'white' }
-                                }}>
-                                    <ShareIcon fontSize="small" />
-                                </IconButton>
-                            </Tooltip>
+                            <img
+                                src={productImages[selectedImage].url || DEFAULT_PRODUCT_IMAGE}
+                                alt={productImages[selectedImage].alt}
+                                onError={handleImageError}
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: imageError ? 'contain' : 'cover',
+                                    transition: 'transform 0.3s ease',
+                                    transform: isImageZoomed ? 'scale(1.1)' : 'scale(1)'
+                                }}
+                            />
+                            {/* Action Buttons */}
+                            <Stack
+                                direction="row"
+                                spacing={1}
+                                sx={{
+                                    position: 'absolute',
+                                    top: 16,
+                                    right: 16
+                                }}
+                            >
+                                <Tooltip title="Add to Wishlist">
+                                    <IconButton
+                                        size="small"
+                                        sx={{
+                                            bgcolor: 'white',
+                                            '&:hover': { bgcolor: 'grey.100' }
+                                        }}
+                                    >
+                                        <FavoriteBorderIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Share">
+                                    <IconButton
+                                        size="small"
+                                        sx={{
+                                            bgcolor: 'white',
+                                            '&:hover': { bgcolor: 'grey.100' }
+                                        }}
+                                    >
+                                        <ShareIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Stack>
+                        </Box>
+
+                        {/* Thumbnail Images */}
+                        <Stack direction="row" spacing={2} justifyContent="center">
+                            {productImages.map((image, index) => (
+                                <Box
+                                    key={index}
+                                    onClick={() => setSelectedImage(index)}
+                                    sx={{
+                                        width: 80,
+                                        height: 80,
+                                        borderRadius: 1,
+                                        overflow: 'hidden',
+                                        cursor: 'pointer',
+                                        border: selectedImage === index ? '2px solid' : '2px solid transparent',
+                                        borderColor: selectedImage === index ? 'primary.main' : 'transparent',
+                                        '&:hover': { opacity: 0.8 }
+                                    }}
+                                >
+                                    <img
+                                        src={image.url}
+                                        alt={image.alt}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover'
+                                        }}
+                                    />
+                                </Box>
+                            ))}
                         </Stack>
-                    </Paper>
+                    </Box>
                 </Grid>
 
-                {/* Product Details */}
+                {/* Right Column - Product Details */}
                 <Grid item xs={12} md={6}>
-                    <Box>
-                        <Typography variant="h4" gutterBottom>
+                    <Box sx={{ pl: { md: 4 } }}>
+                        <Typography variant="h4" gutterBottom sx={{ fontWeight: 500 }}>
                             {product.name}
                         </Typography>
 
@@ -234,75 +333,134 @@ const ProductDetail = () => {
                                 ({product.numReviews} reviews)
                             </Typography>
                             {product.countInStock > 0 ? (
-                                <Chip 
-                                    label="In Stock" 
-                                    color="success" 
-                                    size="small" 
-                                    icon={<CheckCircleOutlineIcon />}
-                                />
+                                <Chip label="In Stock" color="success" size="small" variant="outlined" />
                             ) : (
-                                <Chip 
-                                    label="Out of Stock" 
-                                    color="error" 
-                                    size="small"
-                                />
+                                <Chip label="Out of Stock" color="error" size="small" variant="outlined" />
                             )}
                         </Stack>
 
-                        <Typography variant="h5" color="primary" sx={{ mb: 2 }}>
+                        <Typography variant="h5" color="primary" sx={{ mb: 3, fontWeight: 600 }}>
                             ${product.price.toFixed(2)}
                         </Typography>
 
-                        <Typography variant="body1" sx={{ mb: 3 }}>
+                        <Typography variant="body1" color="text.secondary" paragraph>
                             {product.description}
                         </Typography>
 
                         <Divider sx={{ my: 3 }} />
 
-                        {/* Add to Cart Section */}
-                        <AddToCart product={product} />
+                        {/* Stock and Quantity */}
+                        {product.countInStock > 0 && (
+                            <Box sx={{ mb: 3 }}>
+                                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                                    {product.countInStock} items available
+                                </Typography>
+                                <Stack direction="row" spacing={2} alignItems="center">
+                                    <TextField
+                                        type="number"
+                                        label="Quantity"
+                                        value={quantity}
+                                        onChange={handleQuantityChange}
+                                        InputProps={{
+                                            inputProps: {
+                                                min: 1,
+                                                max: product.countInStock
+                                            }
+                                        }}
+                                        sx={{ width: 100 }}
+                                    />
+                                    <Button
+                                        variant="contained"
+                                        size="large"
+                                        fullWidth
+                                        onClick={handleAddToCart}
+                                        disabled={addedToCart}
+                                        startIcon={addedToCart ? <CheckCircleIcon /> : <ShoppingCartIcon />}
+                                        sx={{
+                                            bgcolor: addedToCart ? 'success.main' : 'primary.main',
+                                            '&:hover': {
+                                                bgcolor: addedToCart ? 'success.dark' : 'primary.dark'
+                                            }
+                                        }}
+                                    >
+                                        {addedToCart ? 'Added to Cart' : 'Add to Cart'}
+                                    </Button>
+                                </Stack>
+                            </Box>
+                        )}
 
-                        <Divider sx={{ my: 3 }} />
-
-                        {/* Product Features */}
-                        <Grid container spacing={2}>
-                            <Grid item xs={6}>
-                                <Stack direction="row" spacing={1} alignItems="center">
-                                    <LocalShippingOutlinedIcon color="primary" />
-                                    <Typography variant="body2">Free Shipping</Typography>
+                        {/* Shipping and Security Info */}
+                        <Box sx={{ 
+                            border: '1px solid #e0e0e0',
+                            borderRadius: 1,
+                            overflow: 'hidden'
+                        }}>
+                            <Stack spacing={0}>
+                                <Stack 
+                                    direction="row" 
+                                    spacing={2} 
+                                    alignItems="center"
+                                    sx={{
+                                        p: 2,
+                                        borderBottom: '1px solid #e0e0e0',
+                                        bgcolor: '#fff'
+                                    }}
+                                >
+                                    <Box sx={{ 
+                                        bgcolor: '#000',
+                                        p: 1,
+                                        borderRadius: 1,
+                                        color: 'white',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        minWidth: '40px',
+                                        minHeight: '40px'
+                                    }}>
+                                        <LocalShippingOutlinedIcon />
+                                    </Box>
+                                    <Box>
+                                        <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#000' }}>
+                                            Free Shipping
+                                        </Typography>
+                                        <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
+                                            Estimated delivery: 3-5 business days
+                                        </Typography>
+                                    </Box>
                                 </Stack>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Stack direction="row" spacing={1} alignItems="center">
-                                    <VerifiedUserOutlinedIcon color="primary" />
-                                    <Typography variant="body2">Genuine Product</Typography>
+                                <Stack 
+                                    direction="row" 
+                                    spacing={2} 
+                                    alignItems="center"
+                                    sx={{
+                                        p: 2,
+                                        bgcolor: '#fff'
+                                    }}
+                                >
+                                    <Box sx={{ 
+                                        bgcolor: '#000',
+                                        p: 1,
+                                        borderRadius: 1,
+                                        color: 'white',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        minWidth: '40px',
+                                        minHeight: '40px'
+                                    }}>
+                                        <VerifiedUserOutlinedIcon />
+                                    </Box>
+                                    <Box>
+                                        <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#000' }}>
+                                            Secure Transaction
+                                        </Typography>
+                                        <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
+                                            SSL encrypted checkout
+                                        </Typography>
+                                    </Box>
                                 </Stack>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Stack direction="row" spacing={1} alignItems="center">
-                                    <LocalOfferOutlinedIcon color="primary" />
-                                    <Typography variant="body2">Best Price</Typography>
-                                </Stack>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Stack direction="row" spacing={1} alignItems="center">
-                                    <AssignmentReturnOutlinedIcon color="primary" />
-                                    <Typography variant="body2">Easy Returns</Typography>
-                                </Stack>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Stack direction="row" spacing={1} alignItems="center">
-                                    <SecurityOutlinedIcon color="primary" />
-                                    <Typography variant="body2">Secure Checkout</Typography>
-                                </Stack>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Stack direction="row" spacing={1} alignItems="center">
-                                    <CreditCardOutlinedIcon color="primary" />
-                                    <Typography variant="body2">Multiple Payment Options</Typography>
-                                </Stack>
-                            </Grid>
-                        </Grid>
+                            </Stack>
+                        </Box>
                     </Box>
                 </Grid>
             </Grid>
@@ -362,6 +520,30 @@ const ProductDetail = () => {
                     </Typography>
                 </TabPanel>
             </Box>
+
+            {/* Related Products Section */}
+            {relatedProducts.length > 0 && (
+                <Box sx={{ mt: 8 }}>
+                    <Typography variant="h5" gutterBottom sx={{ fontWeight: 500 }}>
+                        Related Products
+                    </Typography>
+                    <Grid container spacing={3}>
+                        {relatedProducts.map((relatedProduct) => (
+                            <Grid item xs={12} sm={6} md={3} key={relatedProduct._id}>
+                                {/* Add your ProductCard component here */}
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Box>
+            )}
+
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={2000}
+                onClose={handleCloseSnackbar}
+                message={addedToCart ? "Product added to cart successfully!" : "Error adding product to cart"}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            />
         </Container>
     );
 };

@@ -11,7 +11,7 @@ const furnitureProducts = [
         image: "https://images.unsplash.com/photo-1555041469-8865aef1c8c6",
         brand: "IKEA",
         category: "Furniture",
-        countInStock: 50,
+        countInStock: 100,
         rating: 4.7,
         numReviews: 85,
         isFeatured: true,
